@@ -16,11 +16,13 @@ datasource db {
 }
 
 model User {
-  id             Int     @id @default(autoincrement())
-  clerkUserId    String? @unique
+  id             Int      @id @default(autoincrement())
+  clerkUserId    String?  @unique
   userName       String
-  email          String  @unique
+  email          String   @unique
   hashedPassword String
+  userType       UserType @default(USER)
+  role           Role     @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -567,4 +569,14 @@ enum ReturnStatus {
   APPROVED
   REJECTED
   COMPLETED
+}
+
+enum UserType {
+  USER
+  ADMIN
+}
+
+enum Role {
+  USER
+  ADMIN
 }

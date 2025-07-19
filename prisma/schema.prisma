@@ -21,6 +21,8 @@ model User {
   userName       String
   email          String @unique
   hashedPassword String
+  userType  UserType @default(USER)
+  role  Role @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -568,3 +570,15 @@ enum ReturnStatus {
   REJECTED
   COMPLETED
 }
+
+enum UserType {
+ USER 
+ ADMIN
+}
+
+enum Role {
+ USER 
+ ADMIN
+}
+
+
