@@ -11774,7 +11774,7 @@ export namespace Prisma {
     id: number
     categoryName: string
     slug: string
-    link: string
+    link: string | null
     createdAt: Date
     updatedAt: Date
     createdBy: number | null
@@ -11866,7 +11866,7 @@ export namespace Prisma {
       id: number
       categoryName: string
       slug: string
-      link: string
+      link: string | null
       createdAt: Date
       updatedAt: Date
       createdBy: number | null
@@ -39675,7 +39675,7 @@ export namespace Prisma {
     id?: IntFilter<"Category"> | number
     categoryName?: StringFilter<"Category"> | string
     slug?: StringFilter<"Category"> | string
-    link?: StringFilter<"Category"> | string
+    link?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     createdBy?: IntNullableFilter<"Category"> | number | null
@@ -39688,7 +39688,7 @@ export namespace Prisma {
     id?: SortOrder
     categoryName?: SortOrder
     slug?: SortOrder
-    link?: SortOrder
+    link?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -39704,7 +39704,7 @@ export namespace Prisma {
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     categoryName?: StringFilter<"Category"> | string
-    link?: StringFilter<"Category"> | string
+    link?: StringNullableFilter<"Category"> | string | null
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     createdBy?: IntNullableFilter<"Category"> | number | null
@@ -39717,7 +39717,7 @@ export namespace Prisma {
     id?: SortOrder
     categoryName?: SortOrder
     slug?: SortOrder
-    link?: SortOrder
+    link?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -39736,7 +39736,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Category"> | number
     categoryName?: StringWithAggregatesFilter<"Category"> | string
     slug?: StringWithAggregatesFilter<"Category"> | string
-    link?: StringWithAggregatesFilter<"Category"> | string
+    link?: StringNullableWithAggregatesFilter<"Category"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     createdBy?: IntNullableWithAggregatesFilter<"Category"> | number | null
@@ -41993,7 +41993,7 @@ export namespace Prisma {
   export type CategoryCreateInput = {
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42006,7 +42006,7 @@ export namespace Prisma {
     id?: number
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42018,7 +42018,7 @@ export namespace Prisma {
   export type CategoryUpdateInput = {
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42031,7 +42031,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42044,7 +42044,7 @@ export namespace Prisma {
     id?: number
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42054,7 +42054,7 @@ export namespace Prisma {
   export type CategoryUpdateManyMutationInput = {
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42065,7 +42065,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -49193,7 +49193,7 @@ export namespace Prisma {
   export type CategoryCreateWithoutProductsInput = {
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -49205,7 +49205,7 @@ export namespace Prisma {
     id?: number
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -49421,7 +49421,7 @@ export namespace Prisma {
   export type CategoryUpdateWithoutProductsInput = {
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -49433,7 +49433,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -50312,7 +50312,7 @@ export namespace Prisma {
   export type CategoryCreateWithoutSubCategoriesInput = {
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -50324,7 +50324,7 @@ export namespace Prisma {
     id?: number
     categoryName: string
     slug: string
-    link: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -50351,7 +50351,7 @@ export namespace Prisma {
   export type CategoryUpdateWithoutSubCategoriesInput = {
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -50363,7 +50363,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     categoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    link?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
