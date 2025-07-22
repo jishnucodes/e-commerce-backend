@@ -134,6 +134,14 @@ exports.Prisma.UserScalarFieldEnum = {
   modifiedBy: 'modifiedBy'
 };
 
+exports.Prisma.OtpTokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -565,6 +573,7 @@ exports.SenderType = exports.$Enums.SenderType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  OtpToken: 'OtpToken',
   Product: 'Product',
   ProductVariant: 'ProductVariant',
   ProductImage: 'ProductImage',

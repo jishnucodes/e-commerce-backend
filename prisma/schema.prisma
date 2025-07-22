@@ -43,6 +43,15 @@ model User {
   ticketMessages  TicketMessage[] @relation("UserToTicketMessages")
 }
 
+model OtpToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+
 model Product {
   id                 Int     @id @default(autoincrement())
   name               String
