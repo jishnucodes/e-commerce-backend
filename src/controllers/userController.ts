@@ -121,7 +121,7 @@ export const userLogin = async (req: Request, res: Response) => {
         signInTime: new Date().toISOString(),
       },
     });
-    const token = generateToken(user.id);
+    const token = generateToken({id : user.id, role: user.role});
  
     res.cookie("token", token, {
       httpOnly: true,
@@ -156,14 +156,15 @@ export const updatePassword = async (
   res: Response
 ) => {
   const { currentPassword, newPassword } = req.body;
-  const userId = req.userId;
+  const {id,role} = req.user;
 
-  if (!userId) {
+
+  if (!id) {
     return res.status(401).json({ status: "error", message: "Unauthorized" });
   }
 
   try {
-    const user = await db.user.findUnique({ where: { id: userId } });
+    const user = await db.user.findUnique({ where: { id:id } });
 
     if (!user) {
       return res
@@ -184,7 +185,7 @@ export const updatePassword = async (
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await db.user.update({
-      where: { id: userId },
+      where: { id: id },
       data: { hashedPassword: hashedNewPassword },
     });
 
@@ -290,7 +291,9 @@ export const resetPassword = async (req: Request, res: Response) => {
   }
 }
 export const getUser = async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.params.userId ? parseInt(req.params.userId) : req.userId;
+   const {id,role} = req.user;
+
+  const userId = req.params.userId ? parseInt(req.params.userId) : id;
   if (!userId) {
     return res.status(401).json({
       status: "error",
