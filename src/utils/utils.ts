@@ -5,8 +5,13 @@ dotenv.config();
 
 const secret_key = process.env.SECRET_KEY as string;
 
-const generateToken = (userId: number) => {
-  return jwt.sign({ data: userId }, secret_key, { expiresIn: "1d" });
+interface UserPayload {
+  id: number;
+  role: string;
+}
+
+const generateToken = (user: UserPayload) => {
+  return jwt.sign({ data: user }, secret_key, { expiresIn: "1d" });
 };
 
 export default generateToken;

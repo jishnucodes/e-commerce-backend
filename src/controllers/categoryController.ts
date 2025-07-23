@@ -23,16 +23,20 @@ export const getCategories = async (req: Request, res: Response) => {
       }
 }
 
-export const getACategory = async (req: AuthenticatedRequest, res: Response) => {
-    const userId = req.userId;
+export const getACategory = async (req: Request, res: Response) => {
+    const { user } = req as AuthenticatedRequest;
+const {id, role} = user;
+  if (!id) {
+    return res.status(401).json({ status: "error", message: "Unauthorized" });
+  }
     const categoryId =  req.params.categoryId ? parseInt(req.params.categoryId) : undefined;
 
-  if (!userId) {
+  if (!id) {
     return res.status(401).json({ status: "error", message: "Unauthorized" });
   }
 
   try {
-    const user = await db.user.findUnique({ where: { id: userId } });
+    const user = await db.user.findUnique({ where: { id: id } });
 
     if (!user) {
       return res
