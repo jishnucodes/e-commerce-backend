@@ -4,10 +4,10 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {   
-  provider      = "prisma-client-js"   
-  output        = "../src/prisma/client"   
-  binaryTargets = ["native", "debian-openssl-3.0.x"] 
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/prisma/client"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -16,13 +16,13 @@ datasource db {
 }
 
 model User {
-  id             Int    @id @default(autoincrement())
-  clerkUserId    String? @unique
+  id             Int      @id @default(autoincrement())
+  clerkUserId    String?  @unique
   userName       String
-  email          String @unique
+  email          String   @unique
   hashedPassword String
-  userType  UserType @default(USER)
-  role  Role @default(USER)
+  userType       UserType @default(USER)
+  role           Role     @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -30,17 +30,17 @@ model User {
   createdBy  Int?
   modifiedBy Int?
 
-  address         Address[]
-  wishList        WishList[]
-  cart            Cart[]
-  orders          Order[]
-  reviews         Review[]
-  notifications   Notification[]
-  supportTickets  SupportTicket[]
-  productViews    ProductView[]
-  searchQueries   SearchQuery[]
+  address        Address[]
+  wishList       WishList[]
+  cart           Cart[]
+  orders         Order[]
+  reviews        Review[]
+  notifications  Notification[]
+  supportTickets SupportTicket[]
+  productViews   ProductView[]
+  searchQueries  SearchQuery[]
 
-  ticketMessages  TicketMessage[] @relation("UserToTicketMessages")
+  ticketMessages TicketMessage[] @relation("UserToTicketMessages")
 }
 
 model OtpToken {
@@ -51,98 +51,97 @@ model OtpToken {
   createdAt DateTime @default(now())
 }
 
-
 model Product {
-  id                 Int     @id @default(autoincrement())
-  name               String
-  description        String
-  slug               String  @unique
-  status             ProductStatus @default(ACTIVE)
-  
-  brandId            Int?
-  categoryId         Int?
-  
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String
+  slug        String        @unique
+  status      ProductStatus @default(ACTIVE)
+
+  brandId    Int?
+  categoryId Int?
+
   // SEO
-  metaTitle          String?
-  metaDescription    String?
-  
+  metaTitle       String?
+  metaDescription String?
+
   // Pricing (base price, can be overridden by variants)
-  basePrice          Decimal? @db.Decimal(10, 2)
-  
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  
-  createdBy          Int?
-  modifiedBy         Int?
-  
+  basePrice Decimal? @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy  Int?
+  modifiedBy Int?
+
   // Relations
-  brand              Brand?    @relation(fields: [brandId], references: [id])
-  category           Category? @relation(fields: [categoryId], references: [id])
-  
-  variants           ProductVariant[]
-  images             ProductImage[]
-  reviews            Review[]
-  wishList           WishList[]
-  views              ProductView[]
+  brand    Brand?    @relation(fields: [brandId], references: [id])
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  variants ProductVariant[]
+  images   ProductImage[]
+  reviews  Review[]
+  wishList WishList[]
+  views    ProductView[]
 }
 
 model ProductVariant {
-  id          Int     @id @default(autoincrement())
-  productId   Int
-  sku         String  @unique
-  price       Decimal @db.Decimal(10, 2)
+  id           Int      @id @default(autoincrement())
+  productId    Int
+  sku          String   @unique
+  price        Decimal  @db.Decimal(10, 2)
   comparePrice Decimal? @db.Decimal(10, 2) // For showing discounts
-  cost        Decimal? @db.Decimal(10, 2) // For profit calculations
-  stock       Int     @default(0)
-  weight      Float?
-  dimensions  Json?   // {length, width, height}
-  isActive    Boolean @default(true)
-  
+  cost         Decimal? @db.Decimal(10, 2) // For profit calculations
+  stock        Int      @default(0)
+  weight       Float?
+  dimensions   Json? // {length, width, height}
+  isActive     Boolean  @default(true)
+
   // Variant attributes (color, size, etc.)
-  attributes  Json    // [{"name": "Color", "value": "Red"}, {"name": "Size", "value": "L"}]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  product       Product @relation(fields: [productId], references: [id])
-  cartItems     CartItem[]
-  orderItems    OrderItem[]
-  inventory     Inventory?
+  attributes Json // [{"name": "Color", "value": "Red"}, {"name": "Size", "value": "L"}]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product        Product         @relation(fields: [productId], references: [id])
+  cartItems      CartItem[]
+  orderItems     OrderItem[]
+  inventory      Inventory?
   stockMovements StockMovement[]
 }
 
 model ProductImage {
-  id          Int     @id @default(autoincrement())
-  productId   Int
-  imageUrl    String
-  altText     String?
-  sortOrder   Int     @default(0)
-  isMain      Boolean @default(false)
-  
-  product     Product @relation(fields: [productId], references: [id])
+  id        Int     @id @default(autoincrement())
+  productId Int
+  imageUrl  String
+  altText   String?
+  sortOrder Int     @default(0)
+  isMain    Boolean @default(false)
+
+  product Product @relation(fields: [productId], references: [id])
 }
 
 model Review {
-  id          Int     @id @default(autoincrement())
-  productId   Int
-  userId      Int
-  rating      Int     // 1-5 stars
-  title       String?
-  comment     String?
-  isVerified  Boolean @default(false) // Verified purchase
-  isApproved  Boolean @default(false)
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  product     Product @relation(fields: [productId], references: [id])
-  user        User    @relation(fields: [userId], references: [id])
+  id         Int     @id @default(autoincrement())
+  productId  Int
+  userId     Int
+  rating     Int // 1-5 stars
+  title      String?
+  comment    String?
+  isVerified Boolean @default(false) // Verified purchase
+  isApproved Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
 }
 
 model Category {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   categoryName String
-  slug         String @unique
+  slug         String  @unique
   link         String?
 
   createdAt DateTime @default(now())
@@ -152,7 +151,7 @@ model Category {
   modifiedBy Int?
 
   // Relations
-  products     Product[]
+  products      Product[]
   subCategories SubCategory[]
 }
 
@@ -160,13 +159,13 @@ model SubCategory {
   id Int @id @default(autoincrement())
 
   subCategoryName String
-  slug String @unique
-  categoryId Int
+  slug            String @unique
+  categoryId      Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy Int?
+  createdBy  Int?
   modifiedBy Int?
 
   category Category @relation(fields: [categoryId], references: [id])
@@ -176,82 +175,82 @@ model Brand {
   id Int @id @default(autoincrement())
 
   brandName String
-  slug String @unique
-  image String
+  slug      String @unique
+  image     String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy Int?
+  createdBy  Int?
   modifiedBy Int?
 
   products Product[]
 }
 
 model Address {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  fullName    String
-  street      String
-  city        String
-  state       String
-  postalCode  String
-  country     String
-  phone       String
-  isDefault   Boolean  @default(false)
+  id         Int     @id @default(autoincrement())
+  userId     Int
+  fullName   String
+  street     String
+  city       String
+  state      String
+  postalCode String
+  country    String
+  phone      String
+  isDefault  Boolean @default(false)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  createdBy   Int?
-  modifiedBy  Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  createdBy  Int?
+  modifiedBy Int?
 
   // Relations
-  user             User    @relation(fields: [userId], references: [id])
-  shippingOrders   Order[] @relation("ShippingAddress")
-  billingOrders    Order[] @relation("BillingAddress")
+  user           User    @relation(fields: [userId], references: [id])
+  shippingOrders Order[] @relation("ShippingAddress")
+  billingOrders  Order[] @relation("BillingAddress")
 }
 
 model Coupon {
-  id              Int     @id @default(autoincrement())
-  code            String  @unique
+  id              Int        @id @default(autoincrement())
+  code            String     @unique
   type            CouponType
-  value           Decimal @db.Decimal(10, 2)
-  minimumAmount   Decimal? @db.Decimal(10, 2)
-  maximumDiscount Decimal? @db.Decimal(10, 2)
+  value           Decimal    @db.Decimal(10, 2)
+  minimumAmount   Decimal?   @db.Decimal(10, 2)
+  maximumDiscount Decimal?   @db.Decimal(10, 2)
   usageLimit      Int?
-  usageCount      Int     @default(0)
-  isActive        Boolean @default(true)
-  
-  startDate       DateTime
-  endDate         DateTime
-  
+  usageCount      Int        @default(0)
+  isActive        Boolean    @default(true)
+
+  startDate DateTime
+  endDate   DateTime
+
   // Applicability
-  applicableToProducts Json? // Product IDs
+  applicableToProducts   Json? // Product IDs
   applicableToCategories Json? // Category IDs
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
-  orderCoupons    OrderCoupon[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderCoupons OrderCoupon[]
 }
 
 model OrderCoupon {
-  id          Int     @id @default(autoincrement())
-  orderId     Int
-  couponId    Int
+  id             Int     @id @default(autoincrement())
+  orderId        Int
+  couponId       Int
   discountAmount Decimal @db.Decimal(10, 2)
-  
-  order       Order   @relation(fields: [orderId], references: [id])
-  coupon      Coupon  @relation(fields: [couponId], references: [id])
+
+  order  Order  @relation(fields: [orderId], references: [id])
+  coupon Coupon @relation(fields: [couponId], references: [id])
 }
 
 model WishList {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  productId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdBy Int?
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  productId  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  createdBy  Int?
   modifiedBy Int?
 
   user    User    @relation(fields: [userId], references: [id])
@@ -261,49 +260,49 @@ model WishList {
 }
 
 model Cart {
-  id         Int       @id @default(autoincrement())
-  userId     Int      @unique
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user       User?     @relation(fields: [userId], references: [id])
-  cartItems  CartItem[]
+  user      User?      @relation(fields: [userId], references: [id])
+  cartItems CartItem[]
 }
 
 model CartItem {
-  id              Int     @id @default(autoincrement())
-  cartId          Int
+  id               Int      @id @default(autoincrement())
+  cartId           Int
   productVariantId Int
-  quantity        Int     @default(1)
-  addedAt         DateTime @default(now())
-  
-  cart            Cart    @relation(fields: [cartId], references: [id])
-  productVariant  ProductVariant @relation(fields: [productVariantId], references: [id])
-  
+  quantity         Int      @default(1)
+  addedAt          DateTime @default(now())
+
+  cart           Cart           @relation(fields: [cartId], references: [id])
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
+
   @@unique([cartId, productVariantId])
 }
 
 model OrderItem {
-  id              Int     @id @default(autoincrement())
-  orderId         Int
+  id               Int     @id @default(autoincrement())
+  orderId          Int
   productVariantId Int
-  quantity        Int     @default(1)
-  price           Decimal @db.Decimal(10, 2)
-  discountAmount  Decimal @db.Decimal(10, 2) @default(0)
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
-  order           Order   @relation(fields: [orderId], references: [id])
-  productVariant  ProductVariant @relation(fields: [productVariantId], references: [id])
+  quantity         Int     @default(1)
+  price            Decimal @db.Decimal(10, 2)
+  discountAmount   Decimal @default(0) @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order          Order          @relation(fields: [orderId], references: [id])
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
 }
 
 model Return {
-  id         Int       @id @default(autoincrement())
-  orderId    Int       @unique
-  reason     String
-  status     ReturnStatus @default(PENDING)
-  requestedAt DateTime   @default(now())
+  id          Int          @id @default(autoincrement())
+  orderId     Int          @unique
+  reason      String
+  status      ReturnStatus @default(PENDING)
+  requestedAt DateTime     @default(now())
   processedAt DateTime?
 
   // Relations
@@ -311,192 +310,192 @@ model Return {
 }
 
 model Payment {
-  id          Int      @id @default(autoincrement())
-  orderId     Int      @unique
-  method      String
-  status      PaymentStatus @default(PENDING)
+  id            Int           @id @default(autoincrement())
+  orderId       Int           @unique
+  method        String
+  status        PaymentStatus @default(PENDING)
   transactionId String?
-  paidAt      DateTime?
+  paidAt        DateTime?
 
   // Relations
   order Order @relation(fields: [orderId], references: [id])
 }
 
 model Invoice {
-  id        Int     @id @default(autoincrement())
-  orderId   Int     @unique
-  invoiceNo String  @unique
+  id        Int      @id @default(autoincrement())
+  orderId   Int      @unique
+  invoiceNo String   @unique
   issuedAt  DateTime @default(now())
 
   order Order @relation(fields: [orderId], references: [id])
 }
 
 model Order {
-  id                 Int       @id @default(autoincrement())
-  userId             Int
-  paymentMethod      String?
-  paymentStatus      PaymentStatus @default(PENDING)
-  orderStatus        OrderStatus   @default(PENDING)
-  orderedDate        DateTime  @default(now())
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  paymentMethod String?
+  paymentStatus PaymentStatus @default(PENDING)
+  orderStatus   OrderStatus   @default(PENDING)
+  orderedDate   DateTime      @default(now())
 
-  shippingAddressId  Int?
-  billingAddressId   Int?
-  shippingMethodId   Int?
+  shippingAddressId Int?
+  billingAddressId  Int?
+  shippingMethodId  Int?
 
-  trackingNumber     String?
-  deliveryDate       DateTime?
+  trackingNumber String?
+  deliveryDate   DateTime?
 
-  totalAmount        Decimal?  @db.Decimal(10, 2)
-  shippingCost       Decimal?  @db.Decimal(10, 2)
-  taxAmount          Decimal?  @db.Decimal(10, 2)
-  discountCode       String?
+  totalAmount  Decimal? @db.Decimal(10, 2)
+  shippingCost Decimal? @db.Decimal(10, 2)
+  taxAmount    Decimal? @db.Decimal(10, 2)
+  discountCode String?
 
   cancellationReason String?
   refundStatus       RefundStatus @default(NOT_REQUESTED)
 
-  invoiceId          String?
-  notes              String?
-  isGift             Boolean   @default(false)
-  giftMessage        String?
-  orderSource        String?
+  invoiceId   String?
+  notes       String?
+  isGift      Boolean @default(false)
+  giftMessage String?
+  orderSource String?
 
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
-  user               User      @relation(fields: [userId], references: [id])
-  shippingAddress    Address?  @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
-  billingAddress     Address?  @relation("BillingAddress", fields: [billingAddressId], references: [id])
-  shippingMethod     ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
+  user            User            @relation(fields: [userId], references: [id])
+  shippingAddress Address?        @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  billingAddress  Address?        @relation("BillingAddress", fields: [billingAddressId], references: [id])
+  shippingMethod  ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
 
-  orderItems         OrderItem[]
-  orderCoupons       OrderCoupon[]
-  return             Return?
-  payment            Payment?
-  invoice            Invoice?
-  supportTickets     SupportTicket[]
+  orderItems     OrderItem[]
+  orderCoupons   OrderCoupon[]
+  return         Return?
+  payment        Payment?
+  invoice        Invoice?
+  supportTickets SupportTicket[]
 }
 
 model Inventory {
-  id              Int     @id @default(autoincrement())
-  productVariantId Int    @unique
-  quantity        Int     @default(0)
-  reservedQuantity Int    @default(0) // For pending orders
-  lowStockThreshold Int   @default(5)
-  trackInventory  Boolean @default(true)
-  
-  productVariant  ProductVariant @relation(fields: [productVariantId], references: [id])
+  id                Int     @id @default(autoincrement())
+  productVariantId  Int     @unique
+  quantity          Int     @default(0)
+  reservedQuantity  Int     @default(0) // For pending orders
+  lowStockThreshold Int     @default(5)
+  trackInventory    Boolean @default(true)
+
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
 }
 
 model StockMovement {
-  id              Int     @id @default(autoincrement())
+  id               Int               @id @default(autoincrement())
   productVariantId Int
-  type            StockMovementType
-  quantity        Int
-  reason          String?
-  orderId         Int?
-  
-  createdAt       DateTime @default(now())
-  productVariant  ProductVariant @relation(fields: [productVariantId], references: [id])
+  type             StockMovementType
+  quantity         Int
+  reason           String?
+  orderId          Int?
+
+  createdAt      DateTime       @default(now())
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
 }
 
 model ShippingMethod {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  price       Decimal @db.Decimal(10, 2)
+  id            Int     @id @default(autoincrement())
+  name          String
+  description   String?
+  price         Decimal @db.Decimal(10, 2)
   estimatedDays Int?
-  isActive    Boolean @default(true)
-  
-  orders      Order[]
+  isActive      Boolean @default(true)
+
+  orders Order[]
 }
 
 model TaxRate {
-  id          Int     @id @default(autoincrement())
-  name        String
-  rate        Decimal @db.Decimal(5, 4) // e.g., 0.0825 for 8.25%
-  country     String
-  state       String?
-  city        String?
-  zipCode     String?
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id      Int     @id @default(autoincrement())
+  name    String
+  rate    Decimal @db.Decimal(5, 4) // e.g., 0.0825 for 8.25%
+  country String
+  state   String?
+  city    String?
+  zipCode String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProductView {
-  id          Int     @id @default(autoincrement())
-  productId   Int
-  userId      Int?
-  ipAddress   String?
-  userAgent   String?
-  viewedAt    DateTime @default(now())
-  
-  product     Product @relation(fields: [productId], references: [id])
-  user        User?   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  productId Int
+  userId    Int?
+  ipAddress String?
+  userAgent String?
+  viewedAt  DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
 }
 
 model SearchQuery {
-  id          Int     @id @default(autoincrement())
-  query       String
-  userId      Int?
+  id           Int      @id @default(autoincrement())
+  query        String
+  userId       Int?
   resultsCount Int
-  searchedAt  DateTime @default(now())
-  
-  user        User?   @relation(fields: [userId], references: [id])
+  searchedAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
 }
 
 model Notification {
-  id          Int     @id @default(autoincrement())
-  userId      Int
-  type        NotificationType
-  title       String
-  message     String
-  isRead      Boolean @default(false)
-  
-  createdAt   DateTime @default(now())
-  
-  user        User    @relation(fields: [userId], references: [id])
+  id      Int              @id @default(autoincrement())
+  userId  Int
+  type    NotificationType
+  title   String
+  message String
+  isRead  Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model SupportTicket {
-  id          Int     @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   userId      Int
   orderId     Int?
   subject     String
-  description String  @db.Text
+  description String       @db.Text
   status      TicketStatus @default(OPEN)
-  priority    Priority @default(MEDIUM)
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  user        User    @relation(fields: [userId], references: [id])
-  order       Order?  @relation(fields: [orderId], references: [id])
-  messages    TicketMessage[]
+  priority    Priority     @default(MEDIUM)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User            @relation(fields: [userId], references: [id])
+  order    Order?          @relation(fields: [orderId], references: [id])
+  messages TicketMessage[]
 }
 
 model TicketMessage {
-  id          Int      @id @default(autoincrement())
-  ticketId    Int
-  senderId    Int?     // User ID if sent by customer, null if sent by support staff
-  senderType  SenderType
-  message     String   @db.Text
-  
+  id         Int        @id @default(autoincrement())
+  ticketId   Int
+  senderId   Int? // User ID if sent by customer, null if sent by support staff
+  senderType SenderType
+  message    String     @db.Text
+
   // File attachments (optional)
-  attachments Json?    // Array of file URLs/paths
-  
+  attachments Json? // Array of file URLs/paths
+
   // Message metadata
-  isInternal  Boolean  @default(false) // Internal notes between support staff
-  isRead      Boolean  @default(false) // Has the recipient read this message
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  isInternal Boolean @default(false) // Internal notes between support staff
+  isRead     Boolean @default(false) // Has the recipient read this message
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relations
-  ticket      SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-   // ✅ Named relation to match User side
-  sender      User?         @relation("UserToTicketMessages", fields: [senderId], references: [id])
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  // ✅ Named relation to match User side
+  sender User?         @relation("UserToTicketMessages", fields: [senderId], references: [id])
 }
 
 // Enums
@@ -581,13 +580,11 @@ enum ReturnStatus {
 }
 
 enum UserType {
- USER 
- ADMIN
+  USER
+  ADMIN
 }
 
 enum Role {
- USER 
- ADMIN
+  USER
+  ADMIN
 }
-
-
