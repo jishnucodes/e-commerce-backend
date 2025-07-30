@@ -177,7 +177,7 @@ model Brand {
 
   brandName String
   slug String @unique
-  image String
+  image Bytes?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

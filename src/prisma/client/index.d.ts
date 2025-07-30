@@ -13929,7 +13929,7 @@ export namespace Prisma {
     id: number | null
     brandName: string | null
     slug: string | null
-    image: string | null
+    image: Uint8Array | null
     createdAt: Date | null
     updatedAt: Date | null
     createdBy: number | null
@@ -13940,7 +13940,7 @@ export namespace Prisma {
     id: number | null
     brandName: string | null
     slug: string | null
-    image: string | null
+    image: Uint8Array | null
     createdAt: Date | null
     updatedAt: Date | null
     createdBy: number | null
@@ -14096,7 +14096,7 @@ export namespace Prisma {
     id: number
     brandName: string
     slug: string
-    image: string
+    image: Uint8Array | null
     createdAt: Date
     updatedAt: Date
     createdBy: number | null
@@ -14185,7 +14185,7 @@ export namespace Prisma {
       id: number
       brandName: string
       slug: string
-      image: string
+      image: Uint8Array | null
       createdAt: Date
       updatedAt: Date
       createdBy: number | null
@@ -14617,7 +14617,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Brand", 'Int'>
     readonly brandName: FieldRef<"Brand", 'String'>
     readonly slug: FieldRef<"Brand", 'String'>
-    readonly image: FieldRef<"Brand", 'String'>
+    readonly image: FieldRef<"Brand", 'Bytes'>
     readonly createdAt: FieldRef<"Brand", 'DateTime'>
     readonly updatedAt: FieldRef<"Brand", 'DateTime'>
     readonly createdBy: FieldRef<"Brand", 'Int'>
@@ -38984,6 +38984,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
+    
+
+
+  /**
    * Reference to a field of type 'CouponType'
    */
   export type EnumCouponTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CouponType'>
@@ -39822,7 +39836,7 @@ export namespace Prisma {
     id?: IntFilter<"Brand"> | number
     brandName?: StringFilter<"Brand"> | string
     slug?: StringFilter<"Brand"> | string
-    image?: StringFilter<"Brand"> | string
+    image?: BytesNullableFilter<"Brand"> | Uint8Array | null
     createdAt?: DateTimeFilter<"Brand"> | Date | string
     updatedAt?: DateTimeFilter<"Brand"> | Date | string
     createdBy?: IntNullableFilter<"Brand"> | number | null
@@ -39834,7 +39848,7 @@ export namespace Prisma {
     id?: SortOrder
     brandName?: SortOrder
     slug?: SortOrder
-    image?: SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -39849,7 +39863,7 @@ export namespace Prisma {
     OR?: BrandWhereInput[]
     NOT?: BrandWhereInput | BrandWhereInput[]
     brandName?: StringFilter<"Brand"> | string
-    image?: StringFilter<"Brand"> | string
+    image?: BytesNullableFilter<"Brand"> | Uint8Array | null
     createdAt?: DateTimeFilter<"Brand"> | Date | string
     updatedAt?: DateTimeFilter<"Brand"> | Date | string
     createdBy?: IntNullableFilter<"Brand"> | number | null
@@ -39861,7 +39875,7 @@ export namespace Prisma {
     id?: SortOrder
     brandName?: SortOrder
     slug?: SortOrder
-    image?: SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -39880,7 +39894,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Brand"> | number
     brandName?: StringWithAggregatesFilter<"Brand"> | string
     slug?: StringWithAggregatesFilter<"Brand"> | string
-    image?: StringWithAggregatesFilter<"Brand"> | string
+    image?: BytesNullableWithAggregatesFilter<"Brand"> | Uint8Array | null
     createdAt?: DateTimeWithAggregatesFilter<"Brand"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Brand"> | Date | string
     createdBy?: IntNullableWithAggregatesFilter<"Brand"> | number | null
@@ -42148,7 +42162,7 @@ export namespace Prisma {
   export type BrandCreateInput = {
     brandName: string
     slug: string
-    image: string
+    image?: Uint8Array | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42160,7 +42174,7 @@ export namespace Prisma {
     id?: number
     brandName: string
     slug: string
-    image: string
+    image?: Uint8Array | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42171,7 +42185,7 @@ export namespace Prisma {
   export type BrandUpdateInput = {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42183,7 +42197,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42195,7 +42209,7 @@ export namespace Prisma {
     id?: number
     brandName: string
     slug: string
-    image: string
+    image?: Uint8Array | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42205,7 +42219,7 @@ export namespace Prisma {
   export type BrandUpdateManyMutationInput = {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42216,7 +42230,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44726,6 +44740,13 @@ export namespace Prisma {
     modifiedBy?: SortOrder
   }
 
+  export type BytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
   export type BrandCountOrderByAggregateInput = {
     id?: SortOrder
     brandName?: SortOrder
@@ -44769,6 +44790,16 @@ export namespace Prisma {
     id?: SortOrder
     createdBy?: SortOrder
     modifiedBy?: SortOrder
+  }
+
+  export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
   }
 
   export type AddressCountOrderByAggregateInput = {
@@ -47028,6 +47059,10 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
+  export type NullableBytesFieldUpdateOperationsInput = {
+    set?: Uint8Array | null
+  }
+
   export type ProductUpdateManyWithoutBrandNestedInput = {
     create?: XOR<ProductCreateWithoutBrandInput, ProductUncheckedCreateWithoutBrandInput> | ProductCreateWithoutBrandInput[] | ProductUncheckedCreateWithoutBrandInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutBrandInput | ProductCreateOrConnectWithoutBrandInput[]
@@ -48311,6 +48346,23 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedBytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
+  export type NestedBytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumCouponTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.CouponType | EnumCouponTypeFieldRefInput<$PrismaModel>
     in?: $Enums.CouponType[] | ListEnumCouponTypeFieldRefInput<$PrismaModel>
@@ -49167,7 +49219,7 @@ export namespace Prisma {
   export type BrandCreateWithoutProductsInput = {
     brandName: string
     slug: string
-    image: string
+    image?: Uint8Array | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -49178,7 +49230,7 @@ export namespace Prisma {
     id?: number
     brandName: string
     slug: string
-    image: string
+    image?: Uint8Array | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -49389,7 +49441,7 @@ export namespace Prisma {
   export type BrandUpdateWithoutProductsInput = {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -49400,7 +49452,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
