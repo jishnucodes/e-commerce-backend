@@ -2,15 +2,12 @@ import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middleware/authMiddleware";
 import { db } from "../lib/prisma";
 
-
-
 export const getBrand = async (req: Request, res: Response) => {
-
-const { user } = req as AuthenticatedRequest;
-const {id, role} = user;
+  const { user } = req as AuthenticatedRequest;
+  const { id, role } = user;
   if (!id) {
     return res.status(401).json({
-      success: false,
+      status: false,
       message: "Unauthorized",
     });
   }
@@ -20,7 +17,7 @@ const {id, role} = user;
 
     if (!user) {
       return res.status(404).json({
-        success: false,
+        status: false,
         message: "User not found",
       });
     }
@@ -28,7 +25,7 @@ const {id, role} = user;
     const brandId = parseInt(req.params.brandId);
     if (isNaN(brandId)) {
       return res.status(400).json({
-        success: false,
+        status: false,
         message: "Invalid brand ID",
       });
     }
@@ -40,44 +37,147 @@ const {id, role} = user;
 
     if (!brand) {
       return res.status(404).json({
-        success: false,
+        status: false,
         message: "Brand not found",
       });
     }
 
+    const formattedBrand = {
+      ...brand,
+      image: brand.image
+        ? `data:${brand.imageMime};base64,${Buffer.from(brand.image).toString("base64")}`
+        : null,
+    };
+
     return res.status(200).json({
-      success: true,
+      status: true,
       message: "Brand fetched successfully",
-      data: brand,
+      data: formattedBrand,
     });
   } catch (error) {
     console.error("Error fetching brand:", error);
     return res.status(500).json({
-      success: false,
+      status: false,
       message: "Internal server error",
       error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
 
+// export const getBrands = async (req: Request, res: Response) => {
+//   try {
+//     const brands = await db.brand.findMany({
+//       include: {
+//         products: true,
+//       },
+//     });
 
-export const getBrands = async (req:Request, res: Response) => {
+//     const formatted = brands.map((brand) => ({
+//       ...brand,
+//       image: brand?.image
+//         ? `data:image/jpeg;base64,${Buffer.from(brand.image).toString("base64")}`
+//         : null,
+//     }));
+
+//     return res.status(200).json({
+//       status: true,
+//       message: "Brands retrieved successfully",
+//       data: formatted,
+//     });
+//   } catch (error) {
+//     console.error("Error retrieving brands:", error);
+//     return res.status(500).json({
+//       status: false,
+//       message: "Internal server error",
+//     });
+//   }
+// };
+
+// export const createBrand = async (req: Request, res: Response) => {
+//   const { user } = req as AuthenticatedRequest;
+//   const { id, role } = user;
+
+//   const { brandName, slug, image } = req.body;
+//   const imageBuffer = image ? Buffer.from(image, "base64") : null;
+//   if (!id) {
+//     return res.status(401).json({ status: false, message: "Unauthorized" });
+//   }
+
+//   // Optional: lock this down to admins (or whatever roles you allow)
+//   if (role !== "ADMIN") {
+//     return res.status(403).json({ success: false, message: "Forbidden" });
+//   }
+
+//   try {
+//     const user = await db.user.findUnique({ where: { id: id } });
+
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ status: false, message: "User not found" });
+//     }
+
+//     const isSlugExist = await db.brand.findUnique({
+//       where: {
+//         slug,
+//       },
+//     });
+
+//     if (isSlugExist) {
+//       return res
+//         .status(400)
+//         .json({
+//           status: false,
+//           message: "Already the slug name is existing",
+//         });
+//     }
+
+//     const newBrand = await db.brand.create({
+//       data: {
+//         brandName,
+//         slug,
+//         image: imageBuffer,
+//       },
+//     });
+
+//     return res.status(201).json({
+//       status: true,
+//       message: "Brand created successfully",
+//       data: {
+//         id: newBrand.id,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error creating brand", error);
+//     return res.status(500).json({
+//       status: false,
+//       message: "Internal server error",
+//     });
+//   }
+// };
+
+export const getBrands = async (req: Request, res: Response) => {
   try {
     const brands = await db.brand.findMany({
-      include: {
-        products: true,
-      }
+      include: { products: true },
     });
 
+    const formatted = brands.map((brand) => ({
+      ...brand,
+      image: brand.image
+        ? `data:${brand.imageMime};base64,${Buffer.from(brand.image).toString("base64")}`
+        : null,
+    }));
+
     return res.status(200).json({
-      status: "success",
+      status: true,
       message: "Brands retrieved successfully",
-      brands,
+      data: formatted,
     });
   } catch (error) {
     console.error("Error retrieving brands:", error);
     return res.status(500).json({
-      status: "error",
+      status: false,
       message: "Internal server error",
     });
   }
@@ -85,49 +185,60 @@ export const getBrands = async (req:Request, res: Response) => {
 
 export const createBrand = async (req: Request, res: Response) => {
   const { user } = req as AuthenticatedRequest;
-  const {id, role} = user;
+  const { id, role } = user;
 
-const { brandName, slug, image } = req.body;
-const imageBuffer = image ? Buffer.from(image, 'base64') : null;
+  const { brandName, slug, image } = req.body;
+
   if (!id) {
-    return res.status(401).json({ status: "error", message: "Unauthorized" });
-  }
-  
-  // Optional: lock this down to admins (or whatever roles you allow)
-  if (role !== 'ADMIN') {
-    return res.status(403).json({ success: false, message: 'Forbidden' });
+    return res.status(401).json({ status: false, message: "Unauthorized" });
   }
 
-   try {
-    const user = await db.user.findUnique({ where: { id: id } });
-    
+  if (role !== "ADMIN") {
+    return res.status(403).json({ status: false, message: "Forbidden" });
+  }
+
+  try {
+    const user = await db.user.findUnique({ where: { id } });
     if (!user) {
-      return res
-        .status(404)
-        .json({ status: "error", message: "User not found" });
+      return res.status(404).json({ status: false, message: "User not found" });
     }
- 
+
+    const isSlugExist = await db.brand.findUnique({ where: { slug } });
+    if (isSlugExist) {
+      return res.status(400).json({
+        status: false,
+        message: "Slug already exists",
+      });
+    }
+
+    let imageBuffer: Buffer | null = null;
+    let mimeType: string | null = null;
+
+    if (image) {
+      mimeType = image.match(/^data:(image\/\w+);base64/)?.[1] || null;
+      const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+      imageBuffer = Buffer.from(base64Data, "base64");
+    }
+
     const newBrand = await db.brand.create({
       data: {
         brandName,
         slug,
-        image:imageBuffer
-      }
-    })
- 
-    return res.status(201).json({
-      status: "success",
-      message: "Brand created successfully",
-      brand: {
-        id: newBrand.id,
+        image: imageBuffer,
+        imageMime: mimeType,
       },
     });
-  } catch (error) {
-    console.error("Error creating brand", error)
-    return res.status(500).json({
-        status: "error",
-      message: "Internal server error",
+
+    return res.status(201).json({
+      status: true,
+      message: "Brand created successfully",
+      data: { id: newBrand.id },
     });
+  } catch (error) {
+    console.error("Error creating brand", error);
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal server error" });
   }
 };
 
@@ -136,87 +247,101 @@ export const updateBrand = async (req: Request, res: Response) => {
   const { id, role } = user;
 
   if (!id) {
-    return res.status(401).json({ status: "error", message: "Unauthorized" });
+    return res.status(401).json({ status: false, message: "Unauthorized" });
   }
 
   if (role !== "ADMIN") {
-    return res.status(403).json({ status: "error", message: "Forbidden" });
+    return res.status(403).json({ status: false, message: "Forbidden" });
   }
 
-  const brandId = parseInt(req.params.id);
+  const brandId = parseInt(req.params.brandId);
   if (isNaN(brandId)) {
-    return res.status(400).json({ status: "error", message: "Invalid brand ID" });
+    return res.status(400).json({ status: false, message: "Invalid brand ID" });
   }
 
   const { brandName, slug, image } = req.body;
   const imageBuffer = image ? Buffer.from(image, "base64") : undefined;
 
   try {
-    const Brand = await db.brand.findUnique({ where: { id: brandId } });
-    if (!Brand) {
-      return res.status(404).json({ status: "error", message: "Brand not found" });
+    const existingBrand = await db.brand.findUnique({ where: { id: brandId } });
+    if (!existingBrand) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Brand not found" });
+    }
+
+    let imageBuffer: Buffer | null = null;
+    let mimeType: string | null = null;
+
+    if (image) {
+      mimeType = image.match(/^data:(image\/\w+);base64/)?.[1] || null;
+      const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+      imageBuffer = Buffer.from(base64Data, "base64");
     }
 
     const updatedBrand = await db.brand.update({
       where: { id: brandId },
       data: {
-        brandName: brandName || Brand.brandName,
-        slug: slug || Brand.slug,
-        ...(imageBuffer ? { image: imageBuffer } : {}),
+        brandName: brandName || existingBrand.brandName,
+        slug: slug || existingBrand.slug,
+        ...(imageBuffer ? { image: imageBuffer, imageMime: mimeType } : {}),
       },
     });
 
     return res.status(200).json({
-      status: "success",
+      status: true,
       message: "Brand updated successfully",
-      brand: {
+      data: {
         id: updatedBrand.id,
         brandName: updatedBrand.brandName,
         slug: updatedBrand.slug,
+        image: updatedBrand.image
+          ? `data:${updatedBrand.imageMime};base64,${Buffer.from(updatedBrand.image).toString("base64")}`
+          : null,
       },
     });
   } catch (error) {
     console.error("Error updating brand", error);
     return res.status(500).json({
-      status: "error",
+      status: false,
       message: "Internal server error",
     });
   }
 };
 
-export const deleteBrand = async (req:Request, res: Response) =>{
+export const deleteBrand = async (req: Request, res: Response) => {
   const { user } = req as AuthenticatedRequest;
   const { id, role } = user;
-   if (!id) {
-    return res.status(401).json({ status: "error", message: "Unauthorized" });
+  if (!id) {
+    return res.status(401).json({ status: false, message: "Unauthorized" });
   }
 
   if (role !== "ADMIN") {
-    return res.status(403).json({ status: "error", message: "Forbidden" });
+    return res.status(403).json({ status: false, message: "Forbidden" });
   }
 
-  const brandId = parseInt(req.params.id);
+  const brandId = parseInt(req.params.brandId);
   if (isNaN(brandId)) {
-    return res.status(400).json({ status: "error", message: "Invalid brand ID" });
+    return res.status(400).json({ status: false, message: "Invalid brand ID" });
   }
 
-   try {
+  try {
     const Brand = await db.brand.findUnique({ where: { id: brandId } });
     if (!Brand) {
-      return res.status(404).json({ status: "error", message: "Brand not found" });
+      return res
+        .status(404)
+        .json({ status: false, message: "Brand not found" });
     }
-    await db.brand.delete({where :{id:brandId}})
-    res.status(500).json({
-      status: "success",
+    await db.brand.delete({ where: { id: brandId } });
+    res.status(200).json({
+      status: true,
       message: "Brand deleted successfully",
     });
-
-}
-   catch(error){
-   console.error("Error deleting brand:",error);
+  } catch (error) {
+    console.error("Error deleting brand:", error);
     return res.status(500).json({
-      status: "error",
+      status: false,
       message: "Internal server error",
     });
-}
-}
+  }
+};

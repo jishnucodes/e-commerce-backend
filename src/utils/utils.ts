@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -10,8 +10,10 @@ interface UserPayload {
   role: string;
 }
 
-const generateToken = (user: UserPayload) => {
-  return jwt.sign({ data: user }, secret_key, { expiresIn: "1d" });
+const generateToken = (user: UserPayload, expiresIn: SignOptions["expiresIn"]): string => {
+  const options: SignOptions = { expiresIn };
+  return jwt.sign({ data: user }, secret_key, options);
 };
+
 
 export default generateToken;

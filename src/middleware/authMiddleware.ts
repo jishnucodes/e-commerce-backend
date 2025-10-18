@@ -19,7 +19,15 @@ export const authenticateUser = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies?.token;
+  const {accessToken, refreshToken} = req.cookies;
+
+  let token;
+
+  if (!accessToken) {
+    token = refreshToken
+  } else {
+    token = accessToken
+  }
 
   if (!token) {
     return res.status(401).json({

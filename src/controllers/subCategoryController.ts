@@ -5,16 +5,20 @@ import { AuthenticatedRequest } from "../middleware/authMiddleware";
 
 export const getSubCategories = async (req: Request, res: Response) => {
     try {
-        const subCategories = await db.subCategory.findMany();
+        const subCategories = await db.subCategory.findMany({
+            include: {
+                category: true
+            }
+        });
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Sub categories retrieved successfully",
-            subCategories,
+            data: subCategories,
         })
     } catch (error) {
         return res.status(500).json({
-          status: "error",
+          status: false,
           message: "Internal server error",
         });
     }
@@ -24,11 +28,11 @@ export const getASubCategory = async (req: Request, res: Response) => {
     const { user } = req as AuthenticatedRequest;
     const {id} = user;
     if (!id) {
-        return res.status(401).json({ status: "error", message: "Unauthorized" });
+        return res.status(401).json({ status: false, message: "Unauthorized" });
     }
     const subCategoryId =  req.params.subCategoryId ? parseInt(req.params.subCategoryId) : undefined;
     if (!subCategoryId) {
-        return res.status(400).json({status: "error", message: "Invalid subcategory id"})
+        return res.status(400).json({status: false, message: "Invalid subcategory id"})
     }
     try {
         const user = await db.user.findUnique({ where: { id: id } });
@@ -36,7 +40,7 @@ export const getASubCategory = async (req: Request, res: Response) => {
         if (!user) {
             return res
             .status(404)
-            .json({ status: "error", message: "User not found" });
+            .json({ status: false, message: "User not found" });
         }
 
         const subCategory = await db.subCategory.findUnique({
@@ -46,14 +50,14 @@ export const getASubCategory = async (req: Request, res: Response) => {
         })
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Sub category fetched successfully",
-            subCategory
+            data: subCategory
         });
     } catch (error) {
         console.error("Error fetching category", error)
         return res.status(500).json({
-            status: "error",
+            status: false,
             message: "Internal server error",
         });
     }
@@ -67,7 +71,7 @@ export const listSubCategoriesByCategoryId = async (req: Request, res: Response)
     // }
     const categoryId =  req.params.categoryId ? parseInt(req.params.categoryId) : undefined;
     if (!categoryId) {
-        return res.status(400).json({status: "error", message: "Invalid category id"})
+        return res.status(400).json({status: false, message: "Invalid category id"})
     }
 
     try {
@@ -87,7 +91,7 @@ export const listSubCategoriesByCategoryId = async (req: Request, res: Response)
 
         if (!category) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "Category not found"
             })
         }
@@ -100,20 +104,20 @@ export const listSubCategoriesByCategoryId = async (req: Request, res: Response)
 
         if (!subCategory) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "No sub categories found for this category"
             })
         }
 
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Sub category fetched successfully",
-            subCategory
+            data: subCategory
         })
     } catch (error) {
         console.error("Error fetching category", error)
         return res.status(500).json({
-            status: "error",
+            status: false,
             message: "Internal server error",
         });
     }
@@ -125,11 +129,11 @@ export const createSubCategory = async (req: Request, res: Response) => {
 
     const { subCategoryName, slug, categoryId } = req.body;
     if (!id) {
-        return res.status(401).json({ status: "error", message: "Unauthorized" });
+        return res.status(401).json({ status: false, message: "Unauthorized" });
     }
 
     if (role != "ADMIN") {
-        return res.status(401).json({ status: "error", message: "Login user is not admin" });
+        return res.status(401).json({ status: false, message: "Login user is not admin" });
     }
 
     try {
@@ -138,7 +142,7 @@ export const createSubCategory = async (req: Request, res: Response) => {
         if (!user) {
             return res
                 .status(404)
-                .json({ status: "error", message: "User not found" });
+                .json({ status: false, message: "User not found" });
         }
 
         const category = await db.category.findUnique({
@@ -149,7 +153,7 @@ export const createSubCategory = async (req: Request, res: Response) => {
 
         if (!category) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "Category not found"
             })
         }
@@ -166,21 +170,21 @@ export const createSubCategory = async (req: Request, res: Response) => {
 
         if (!newSubCategory) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "Sub category not created"
             })
         }
 
         return res.status(201).json({
-            status: "success",
+            status: true,
             message: "Sub category created successfully",
-            subCategory: newSubCategory
+            data: newSubCategory
         });
 
     } catch (error) {
         console.error("Error creating sub category", error)
         return res.status(500).json({
-            status: "error",
+            status: false,
             message: "Internal server error",
         });
     }
@@ -192,16 +196,16 @@ export const updateSubCategory = async (req: Request, res: Response) => {
 
     const { subCategoryName, slug, categoryId } = req.body;
     if (!id) {
-        return res.status(401).json({ status: "error", message: "Unauthorized" });
+        return res.status(401).json({ status: false, message: "Unauthorized" });
     }
 
     if (role != "ADMIN") {
-        return res.status(401).json({ status: "error", message: "Login user is not admin" });
+        return res.status(401).json({ status: false, message: "Login user is not admin" });
     }
 
     const subCategoryId =  req.params.subCategoryId ? parseInt(req.params.subCategoryId) : undefined;
     if (!subCategoryId) {
-        return res.status(400).json({status: "error", message: "Invalid subcategory id"})
+        return res.status(400).json({status: false, message: "Invalid subcategory id"})
     }
 
     try {
@@ -210,7 +214,7 @@ export const updateSubCategory = async (req: Request, res: Response) => {
         if (!user) {
             return res
                 .status(404)
-                .json({ status: "error", message: "User not found" });
+                .json({ status: false, message: "User not found" });
         }
 
         const existingSubCategory = await db.subCategory.findUnique({
@@ -221,7 +225,7 @@ export const updateSubCategory = async (req: Request, res: Response) => {
 
         if (!existingSubCategory) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "Sub category is not found"
             })
         }
@@ -234,7 +238,7 @@ export const updateSubCategory = async (req: Request, res: Response) => {
 
         if (!category) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "Category not found"
             })
         }
@@ -252,14 +256,14 @@ export const updateSubCategory = async (req: Request, res: Response) => {
         })
 
         return res.status(201).json({
-            status: "success",
+            status: true,
             message: "Sub category updated successfully",
-            subCategory: updatedCategory
+            data: updatedCategory
         });
     } catch (error) {
         console.error("Error updating sub category", error)
         return res.status(500).json({
-            status: "error",
+            status: false,
             message: "Internal server error",
         });
     }
@@ -272,16 +276,16 @@ export const deleteSubCategory = async (req: Request, res: Response) => {
 
 
     if (!id) {
-        return res.status(401).json({ status: "error", message: "Unauthorized" });
+        return res.status(401).json({ status: false, message: "Unauthorized" });
     }
 
     if (role != "ADMIN") {
-        return res.status(401).json({ status: "error", message: "Login user is not admin" });
+        return res.status(401).json({ status: false, message: "Login user is not admin" });
     }
 
     if (!subCategoryId) {
         return res.status(400).json({
-            status: "error",
+            status: false,
             message: "Sub category id is missing"
         })
     }
@@ -292,7 +296,7 @@ export const deleteSubCategory = async (req: Request, res: Response) => {
         if (!user) {
             return res
                 .status(404)
-                .json({ status: "error", message: "User not found" });
+                .json({ status: false, message: "User not found" });
         }
 
         const existingSubCategory = await db.subCategory.findUnique({
@@ -303,7 +307,7 @@ export const deleteSubCategory = async (req: Request, res: Response) => {
 
         if (!existingSubCategory) {
             return res.status(400).json({
-                status: "error",
+                status: false,
                 message: "Sub category is not found"
             })
         }
@@ -313,13 +317,13 @@ export const deleteSubCategory = async (req: Request, res: Response) => {
         })
         
         return res.status(200).json({
-            status: "success",
+            status: true,
             message: "Sub category deleted successfully",
         });
     } catch (error) {
         console.error("Error deleting sub category", error)
         return res.status(500).json({
-            status: "error",
+            status: false,
             message: "Internal server error",
         });
     }

@@ -249,6 +249,7 @@ export const OrderStatus: {
   PROCESSING: 'PROCESSING',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',
+  CONFIRMED: 'CONFIRMED',
   CANCELLED: 'CANCELLED',
   RETURNED: 'RETURNED'
 };
@@ -361,7 +362,7 @@ export const Role: typeof $Enums.Role
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -817,8 +818,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.12.0
-   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+   * Prisma Client JS version: 6.13.0
+   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
    */
   export type PrismaVersion = {
     client: string
@@ -3439,16 +3440,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -3518,10 +3527,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -9316,7 +9330,7 @@ export namespace Prisma {
   export type ProductImageMinAggregateOutputType = {
     id: number | null
     productId: number | null
-    imageUrl: string | null
+    imageUrl: Uint8Array | null
     altText: string | null
     sortOrder: number | null
     isMain: boolean | null
@@ -9325,7 +9339,7 @@ export namespace Prisma {
   export type ProductImageMaxAggregateOutputType = {
     id: number | null
     productId: number | null
-    imageUrl: string | null
+    imageUrl: Uint8Array | null
     altText: string | null
     sortOrder: number | null
     isMain: boolean | null
@@ -9471,7 +9485,7 @@ export namespace Prisma {
   export type ProductImageGroupByOutputType = {
     id: number
     productId: number
-    imageUrl: string
+    imageUrl: Uint8Array | null
     altText: string | null
     sortOrder: number
     isMain: boolean
@@ -9554,7 +9568,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       productId: number
-      imageUrl: string
+      imageUrl: Uint8Array | null
       altText: string | null
       sortOrder: number
       isMain: boolean
@@ -9984,7 +9998,7 @@ export namespace Prisma {
   interface ProductImageFieldRefs {
     readonly id: FieldRef<"ProductImage", 'Int'>
     readonly productId: FieldRef<"ProductImage", 'Int'>
-    readonly imageUrl: FieldRef<"ProductImage", 'String'>
+    readonly imageUrl: FieldRef<"ProductImage", 'Bytes'>
     readonly altText: FieldRef<"ProductImage", 'String'>
     readonly sortOrder: FieldRef<"ProductImage", 'Int'>
     readonly isMain: FieldRef<"ProductImage", 'Boolean'>
@@ -13930,6 +13944,7 @@ export namespace Prisma {
     brandName: string | null
     slug: string | null
     image: Uint8Array | null
+    imageMime: string | null
     createdAt: Date | null
     updatedAt: Date | null
     createdBy: number | null
@@ -13941,6 +13956,7 @@ export namespace Prisma {
     brandName: string | null
     slug: string | null
     image: Uint8Array | null
+    imageMime: string | null
     createdAt: Date | null
     updatedAt: Date | null
     createdBy: number | null
@@ -13952,6 +13968,7 @@ export namespace Prisma {
     brandName: number
     slug: number
     image: number
+    imageMime: number
     createdAt: number
     updatedAt: number
     createdBy: number
@@ -13977,6 +13994,7 @@ export namespace Prisma {
     brandName?: true
     slug?: true
     image?: true
+    imageMime?: true
     createdAt?: true
     updatedAt?: true
     createdBy?: true
@@ -13988,6 +14006,7 @@ export namespace Prisma {
     brandName?: true
     slug?: true
     image?: true
+    imageMime?: true
     createdAt?: true
     updatedAt?: true
     createdBy?: true
@@ -13999,6 +14018,7 @@ export namespace Prisma {
     brandName?: true
     slug?: true
     image?: true
+    imageMime?: true
     createdAt?: true
     updatedAt?: true
     createdBy?: true
@@ -14097,6 +14117,7 @@ export namespace Prisma {
     brandName: string
     slug: string
     image: Uint8Array | null
+    imageMime: string | null
     createdAt: Date
     updatedAt: Date
     createdBy: number | null
@@ -14127,6 +14148,7 @@ export namespace Prisma {
     brandName?: boolean
     slug?: boolean
     image?: boolean
+    imageMime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
@@ -14140,6 +14162,7 @@ export namespace Prisma {
     brandName?: boolean
     slug?: boolean
     image?: boolean
+    imageMime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
@@ -14151,6 +14174,7 @@ export namespace Prisma {
     brandName?: boolean
     slug?: boolean
     image?: boolean
+    imageMime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
@@ -14162,13 +14186,14 @@ export namespace Prisma {
     brandName?: boolean
     slug?: boolean
     image?: boolean
+    imageMime?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean
     modifiedBy?: boolean
   }
 
-  export type BrandOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brandName" | "slug" | "image" | "createdAt" | "updatedAt" | "createdBy" | "modifiedBy", ExtArgs["result"]["brand"]>
+  export type BrandOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brandName" | "slug" | "image" | "imageMime" | "createdAt" | "updatedAt" | "createdBy" | "modifiedBy", ExtArgs["result"]["brand"]>
   export type BrandInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Brand$productsArgs<ExtArgs>
     _count?: boolean | BrandCountOutputTypeDefaultArgs<ExtArgs>
@@ -14186,6 +14211,7 @@ export namespace Prisma {
       brandName: string
       slug: string
       image: Uint8Array | null
+      imageMime: string | null
       createdAt: Date
       updatedAt: Date
       createdBy: number | null
@@ -14618,6 +14644,7 @@ export namespace Prisma {
     readonly brandName: FieldRef<"Brand", 'String'>
     readonly slug: FieldRef<"Brand", 'String'>
     readonly image: FieldRef<"Brand", 'Bytes'>
+    readonly imageMime: FieldRef<"Brand", 'String'>
     readonly createdAt: FieldRef<"Brand", 'DateTime'>
     readonly updatedAt: FieldRef<"Brand", 'DateTime'>
     readonly createdBy: FieldRef<"Brand", 'Int'>
@@ -38506,6 +38533,7 @@ export namespace Prisma {
     brandName: 'brandName',
     slug: 'slug',
     image: 'image',
+    imageMime: 'imageMime',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     createdBy: 'createdBy',
@@ -39541,7 +39569,7 @@ export namespace Prisma {
     NOT?: ProductImageWhereInput | ProductImageWhereInput[]
     id?: IntFilter<"ProductImage"> | number
     productId?: IntFilter<"ProductImage"> | number
-    imageUrl?: StringFilter<"ProductImage"> | string
+    imageUrl?: BytesNullableFilter<"ProductImage"> | Uint8Array | null
     altText?: StringNullableFilter<"ProductImage"> | string | null
     sortOrder?: IntFilter<"ProductImage"> | number
     isMain?: BoolFilter<"ProductImage"> | boolean
@@ -39551,7 +39579,7 @@ export namespace Prisma {
   export type ProductImageOrderByWithRelationInput = {
     id?: SortOrder
     productId?: SortOrder
-    imageUrl?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     altText?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     isMain?: SortOrder
@@ -39564,7 +39592,7 @@ export namespace Prisma {
     OR?: ProductImageWhereInput[]
     NOT?: ProductImageWhereInput | ProductImageWhereInput[]
     productId?: IntFilter<"ProductImage"> | number
-    imageUrl?: StringFilter<"ProductImage"> | string
+    imageUrl?: BytesNullableFilter<"ProductImage"> | Uint8Array | null
     altText?: StringNullableFilter<"ProductImage"> | string | null
     sortOrder?: IntFilter<"ProductImage"> | number
     isMain?: BoolFilter<"ProductImage"> | boolean
@@ -39574,7 +39602,7 @@ export namespace Prisma {
   export type ProductImageOrderByWithAggregationInput = {
     id?: SortOrder
     productId?: SortOrder
-    imageUrl?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     altText?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     isMain?: SortOrder
@@ -39591,7 +39619,7 @@ export namespace Prisma {
     NOT?: ProductImageScalarWhereWithAggregatesInput | ProductImageScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"ProductImage"> | number
     productId?: IntWithAggregatesFilter<"ProductImage"> | number
-    imageUrl?: StringWithAggregatesFilter<"ProductImage"> | string
+    imageUrl?: BytesNullableWithAggregatesFilter<"ProductImage"> | Uint8Array | null
     altText?: StringNullableWithAggregatesFilter<"ProductImage"> | string | null
     sortOrder?: IntWithAggregatesFilter<"ProductImage"> | number
     isMain?: BoolWithAggregatesFilter<"ProductImage"> | boolean
@@ -39837,6 +39865,7 @@ export namespace Prisma {
     brandName?: StringFilter<"Brand"> | string
     slug?: StringFilter<"Brand"> | string
     image?: BytesNullableFilter<"Brand"> | Uint8Array | null
+    imageMime?: StringNullableFilter<"Brand"> | string | null
     createdAt?: DateTimeFilter<"Brand"> | Date | string
     updatedAt?: DateTimeFilter<"Brand"> | Date | string
     createdBy?: IntNullableFilter<"Brand"> | number | null
@@ -39849,6 +39878,7 @@ export namespace Prisma {
     brandName?: SortOrder
     slug?: SortOrder
     image?: SortOrderInput | SortOrder
+    imageMime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -39864,6 +39894,7 @@ export namespace Prisma {
     NOT?: BrandWhereInput | BrandWhereInput[]
     brandName?: StringFilter<"Brand"> | string
     image?: BytesNullableFilter<"Brand"> | Uint8Array | null
+    imageMime?: StringNullableFilter<"Brand"> | string | null
     createdAt?: DateTimeFilter<"Brand"> | Date | string
     updatedAt?: DateTimeFilter<"Brand"> | Date | string
     createdBy?: IntNullableFilter<"Brand"> | number | null
@@ -39876,6 +39907,7 @@ export namespace Prisma {
     brandName?: SortOrder
     slug?: SortOrder
     image?: SortOrderInput | SortOrder
+    imageMime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrderInput | SortOrder
@@ -39895,6 +39927,7 @@ export namespace Prisma {
     brandName?: StringWithAggregatesFilter<"Brand"> | string
     slug?: StringWithAggregatesFilter<"Brand"> | string
     image?: BytesNullableWithAggregatesFilter<"Brand"> | Uint8Array | null
+    imageMime?: StringNullableWithAggregatesFilter<"Brand"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Brand"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Brand"> | Date | string
     createdBy?: IntNullableWithAggregatesFilter<"Brand"> | number | null
@@ -41860,7 +41893,7 @@ export namespace Prisma {
   }
 
   export type ProductImageCreateInput = {
-    imageUrl: string
+    imageUrl?: Uint8Array | null
     altText?: string | null
     sortOrder?: number
     isMain?: boolean
@@ -41870,14 +41903,14 @@ export namespace Prisma {
   export type ProductImageUncheckedCreateInput = {
     id?: number
     productId: number
-    imageUrl: string
+    imageUrl?: Uint8Array | null
     altText?: string | null
     sortOrder?: number
     isMain?: boolean
   }
 
   export type ProductImageUpdateInput = {
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean
@@ -41887,7 +41920,7 @@ export namespace Prisma {
   export type ProductImageUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean
@@ -41896,14 +41929,14 @@ export namespace Prisma {
   export type ProductImageCreateManyInput = {
     id?: number
     productId: number
-    imageUrl: string
+    imageUrl?: Uint8Array | null
     altText?: string | null
     sortOrder?: number
     isMain?: boolean
   }
 
   export type ProductImageUpdateManyMutationInput = {
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean
@@ -41912,7 +41945,7 @@ export namespace Prisma {
   export type ProductImageUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean
@@ -42163,6 +42196,7 @@ export namespace Prisma {
     brandName: string
     slug: string
     image?: Uint8Array | null
+    imageMime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42175,6 +42209,7 @@ export namespace Prisma {
     brandName: string
     slug: string
     image?: Uint8Array | null
+    imageMime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42186,6 +42221,7 @@ export namespace Prisma {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    imageMime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42198,6 +42234,7 @@ export namespace Prisma {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    imageMime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42210,6 +42247,7 @@ export namespace Prisma {
     brandName: string
     slug: string
     image?: Uint8Array | null
+    imageMime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -42220,6 +42258,7 @@ export namespace Prisma {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    imageMime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -42231,6 +42270,7 @@ export namespace Prisma {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    imageMime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -44526,6 +44566,13 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type BytesNullableFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
+  }
+
   export type ProductImageCountOrderByAggregateInput = {
     id?: SortOrder
     productId?: SortOrder
@@ -44563,6 +44610,16 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     sortOrder?: SortOrder
+  }
+
+  export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
+    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBytesNullableFilter<$PrismaModel>
+    _max?: NestedBytesNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -44740,18 +44797,12 @@ export namespace Prisma {
     modifiedBy?: SortOrder
   }
 
-  export type BytesNullableFilter<$PrismaModel = never> = {
-    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
-    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
-    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
-    not?: NestedBytesNullableFilter<$PrismaModel> | Uint8Array | null
-  }
-
   export type BrandCountOrderByAggregateInput = {
     id?: SortOrder
     brandName?: SortOrder
     slug?: SortOrder
     image?: SortOrder
+    imageMime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrder
@@ -44769,6 +44820,7 @@ export namespace Prisma {
     brandName?: SortOrder
     slug?: SortOrder
     image?: SortOrder
+    imageMime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrder
@@ -44780,6 +44832,7 @@ export namespace Prisma {
     brandName?: SortOrder
     slug?: SortOrder
     image?: SortOrder
+    imageMime?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: SortOrder
@@ -44790,16 +44843,6 @@ export namespace Prisma {
     id?: SortOrder
     createdBy?: SortOrder
     modifiedBy?: SortOrder
-  }
-
-  export type BytesNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel> | null
-    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
-    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel> | null
-    not?: NestedBytesNullableWithAggregatesFilter<$PrismaModel> | Uint8Array | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBytesNullableFilter<$PrismaModel>
-    _max?: NestedBytesNullableFilter<$PrismaModel>
   }
 
   export type AddressCountOrderByAggregateInput = {
@@ -46911,6 +46954,10 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput
   }
 
+  export type NullableBytesFieldUpdateOperationsInput = {
+    set?: Uint8Array | null
+  }
+
   export type ProductUpdateOneRequiredWithoutImagesNestedInput = {
     create?: XOR<ProductCreateWithoutImagesInput, ProductUncheckedCreateWithoutImagesInput>
     connectOrCreate?: ProductCreateOrConnectWithoutImagesInput
@@ -47057,10 +47104,6 @@ export namespace Prisma {
     connectOrCreate?: ProductCreateOrConnectWithoutBrandInput | ProductCreateOrConnectWithoutBrandInput[]
     createMany?: ProductCreateManyBrandInputEnvelope
     connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-  }
-
-  export type NullableBytesFieldUpdateOperationsInput = {
-    set?: Uint8Array | null
   }
 
   export type ProductUpdateManyWithoutBrandNestedInput = {
@@ -49220,6 +49263,7 @@ export namespace Prisma {
     brandName: string
     slug: string
     image?: Uint8Array | null
+    imageMime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -49231,6 +49275,7 @@ export namespace Prisma {
     brandName: string
     slug: string
     image?: Uint8Array | null
+    imageMime?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy?: number | null
@@ -49318,7 +49363,7 @@ export namespace Prisma {
   }
 
   export type ProductImageCreateWithoutProductInput = {
-    imageUrl: string
+    imageUrl?: Uint8Array | null
     altText?: string | null
     sortOrder?: number
     isMain?: boolean
@@ -49326,7 +49371,7 @@ export namespace Prisma {
 
   export type ProductImageUncheckedCreateWithoutProductInput = {
     id?: number
-    imageUrl: string
+    imageUrl?: Uint8Array | null
     altText?: string | null
     sortOrder?: number
     isMain?: boolean
@@ -49442,6 +49487,7 @@ export namespace Prisma {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    imageMime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -49453,6 +49499,7 @@ export namespace Prisma {
     brandName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     image?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
+    imageMime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -49550,7 +49597,7 @@ export namespace Prisma {
     NOT?: ProductImageScalarWhereInput | ProductImageScalarWhereInput[]
     id?: IntFilter<"ProductImage"> | number
     productId?: IntFilter<"ProductImage"> | number
-    imageUrl?: StringFilter<"ProductImage"> | string
+    imageUrl?: BytesNullableFilter<"ProductImage"> | Uint8Array | null
     altText?: StringNullableFilter<"ProductImage"> | string | null
     sortOrder?: IntFilter<"ProductImage"> | number
     isMain?: BoolFilter<"ProductImage"> | boolean
@@ -54418,7 +54465,7 @@ export namespace Prisma {
 
   export type ProductImageCreateManyProductInput = {
     id?: number
-    imageUrl: string
+    imageUrl?: Uint8Array | null
     altText?: string | null
     sortOrder?: number
     isMain?: boolean
@@ -54506,7 +54553,7 @@ export namespace Prisma {
   }
 
   export type ProductImageUpdateWithoutProductInput = {
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean
@@ -54514,7 +54561,7 @@ export namespace Prisma {
 
   export type ProductImageUncheckedUpdateWithoutProductInput = {
     id?: IntFieldUpdateOperationsInput | number
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean
@@ -54522,7 +54569,7 @@ export namespace Prisma {
 
   export type ProductImageUncheckedUpdateManyWithoutProductInput = {
     id?: IntFieldUpdateOperationsInput | number
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableBytesFieldUpdateOperationsInput | Uint8Array | null
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isMain?: BoolFieldUpdateOperationsInput | boolean

@@ -13,9 +13,14 @@ dotenv.config();
 const app = express()
 const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // your Next.js frontend URL
+    credentials: true,               // allow cookies
+  })
+);
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // raise the limit if 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api", router);
 
