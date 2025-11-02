@@ -15,3 +15,4 @@ productRouter.put("/:productId", authMiddleware_1.authenticateUser, productContr
 productRouter.delete("/soft-delete/:productId", authMiddleware_1.authenticateUser, productController_1.softDeleteAProduct);
 productRouter.delete("/:productId", authMiddleware_1.authenticateUser, productController_1.deleteAProductPermanently);
 exports.default = productRouter;
+//# sourceMappingURL=productRouter.js.map

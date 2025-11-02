@@ -61,22 +61,11 @@ const getASubCategory = async (req, res) => {
 };
 exports.getASubCategory = getASubCategory;
 const listSubCategoriesByCategoryId = async (req, res) => {
-    // const { user } = req as AuthenticatedRequest;
-    // const {id} = user;
-    // if (!id) {
-    //     return res.status(401).json({ status: "error", message: "Unauthorized" });
-    // }
     const categoryId = req.params.categoryId ? parseInt(req.params.categoryId) : undefined;
     if (!categoryId) {
         return res.status(400).json({ status: false, message: "Invalid category id" });
     }
     try {
-        // const user = await db.user.findUnique({ where: { id: id } });
-        // if (!user) {
-        //     return res
-        //         .status(404)
-        //         .json({ status: "error", message: "User not found" });
-        // }
         const category = await prisma_1.db.category.findUnique({
             where: {
                 id: categoryId
@@ -292,3 +281,4 @@ const deleteSubCategory = async (req, res) => {
     }
 };
 exports.deleteSubCategory = deleteSubCategory;
+//# sourceMappingURL=subCategoryController.js.map

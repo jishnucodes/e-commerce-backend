@@ -13,7 +13,6 @@ var OrderStatus;
     OrderStatus["CANCELLED"] = "CANCELLED";
     OrderStatus["RETURNED"] = "RETURNED";
 })(OrderStatus || (OrderStatus = {}));
-//create order
 const createOrder = async (data) => {
     if (data.role !== "ADMIN") {
         throw new Error("User is not admin");
@@ -22,7 +21,7 @@ const createOrder = async (data) => {
     if (!dbUser)
         throw new Error("User not found");
     return await prisma_1.db.$transaction(async (tx) => {
-        //Fetch product variant prices
+        var _a;
         const variants = await tx.productVariant.findMany({
             where: {
                 id: {
@@ -33,7 +32,6 @@ const createOrder = async (data) => {
         if (variants.length !== data.items.length) {
             throw new Error("Some product variants not found");
         }
-        //Calculate total price
         let subtotal = new library_1.Decimal(0);
         const orderItems = data.items.map((item) => {
             const variant = variants.find((v) => v.id === item.productVariantId);
@@ -46,13 +44,12 @@ const createOrder = async (data) => {
                 productVariantId: item.productVariantId,
                 quantity: item.quantity,
                 price,
-                discountAmount: new library_1.Decimal(0), // apply coupon logic here
+                discountAmount: new library_1.Decimal(0),
             };
         });
-        const shippingCost = new library_1.Decimal(10); // example flat rate
-        const taxAmount = subtotal.mul(0.1); // example 10%
+        const shippingCost = new library_1.Decimal(10);
+        const taxAmount = subtotal.mul(0.1);
         const totalAmount = subtotal.plus(shippingCost).plus(taxAmount);
-        //Create Order with nested items
         const order = await tx.order.create({
             data: {
                 userId: data.userId,
@@ -60,17 +57,15 @@ const createOrder = async (data) => {
                 billingAddressId: data.billingAddressId,
                 shippingMethodId: data.shippingMethodId,
                 discountCode: data.discountCode,
-                isGift: data.isGift ?? false,
+                isGift: (_a = data.isGift) !== null && _a !== void 0 ? _a : false,
                 giftMessage: data.giftMessage,
                 notes: data.notes,
                 totalAmount,
                 shippingCost,
                 taxAmount,
-                //order items table
                 orderItems: {
                     create: orderItems,
                 },
-                //payment table
                 payment: {
                     create: {
                         method: "stripe",
@@ -87,7 +82,6 @@ const createOrder = async (data) => {
     });
 };
 exports.createOrder = createOrder;
-// GET /orders
 const getOrders = async ({ skip, take, where, sortBy, order, }) => {
     const [orders, total] = await Promise.all([
         prisma_1.db.order.findMany({
@@ -113,18 +107,6 @@ const getOrders = async ({ skip, take, where, sortBy, order, }) => {
                 createdAt: true,
                 updatedAt: true,
                 user: { select: { id: true, userName: true } },
-                // ✅ Uncomment these when needed
-                // brand: { select: { id: true, brandName: true } },
-                // category: { select: { id: true, categoryName: true } },
-                // images: {
-                //   select: {
-                //     id: true,
-                //     altText: true,
-                //     isMain: true,
-                //     imageUrl: true,
-                //   },
-                //   take: 3,
-                // },
             },
         }),
         prisma_1.db.order.count({ where }),
@@ -132,7 +114,6 @@ const getOrders = async ({ skip, take, where, sortBy, order, }) => {
     return { orders, total };
 };
 exports.getOrders = getOrders;
-// GET /orders/:id
 const getOrderById = async (orderId) => {
     const order = await prisma_1.db.order.findUnique({
         where: { id: orderId },
@@ -147,7 +128,6 @@ const getOrderById = async (orderId) => {
     return order;
 };
 exports.getOrderById = getOrderById;
-// PATCH /orders/:id
 const updateOrder = async (data) => {
     const { id, shippingAddressId, billingAddressId, notes } = data;
     const updatedOrder = await prisma_1.db.order.update({
@@ -157,7 +137,6 @@ const updateOrder = async (data) => {
     return updatedOrder;
 };
 exports.updateOrder = updateOrder;
-// PATCH /orders/:id/cancel
 const cancelOrder = async (data) => {
     const { id, orderStatus, cancellationReason } = data;
     const order = await prisma_1.db.order.update({
@@ -170,7 +149,6 @@ const cancelOrder = async (data) => {
     return order;
 };
 exports.cancelOrder = cancelOrder;
-// PATCH /orders/:id/status
 const updateOrderStatus = async (data) => {
     const { id, orderStatus, trackingNumber, deliveryDate } = data;
     const updated = await prisma_1.db.order.update({
@@ -184,7 +162,6 @@ const updateOrderStatus = async (data) => {
     return updated;
 };
 exports.updateOrderStatus = updateOrderStatus;
-//Handle payment success (Stripe webhook)
 const handlePaymentSuccess = async (orderId, transactionId) => {
     return await prisma_1.db.$transaction(async (tx) => {
         const order = await tx.order.update({
@@ -216,7 +193,6 @@ const handlePaymentSuccess = async (orderId, transactionId) => {
     });
 };
 exports.handlePaymentSuccess = handlePaymentSuccess;
-//Handle Return Request (Customer request for return)
 const handleReturnRequest = async (orderId, reason) => {
     return await prisma_1.db.$transaction(async (tx) => {
         const order = await tx.order.findUnique({
@@ -247,3 +223,4 @@ const handleReturnRequest = async (orderId, reason) => {
     });
 };
 exports.handleReturnRequest = handleReturnRequest;
+//# sourceMappingURL=orderService.js.map

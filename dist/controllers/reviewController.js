@@ -107,13 +107,11 @@ const updateReview = async (req, res) => {
             return res.status(404).json({ status: 'error', message: 'Product not found' });
         if (!existingReview)
             return res.status(404).json({ status: 'error', message: 'Review not found' });
-        // Check ownership
         if (existingReview.userId !== tokenUserId) {
             return res
                 .status(403)
                 .json({ status: "error", message: "Not authorized to update this review" });
         }
-        // Build update data dynamically
         const updateData = {};
         if (productId !== undefined)
             updateData.productId = productId;
@@ -168,7 +166,6 @@ const deleteAReview = async (req, res) => {
                 .status(404)
                 .json({ status: "error", message: "Review not found" });
         }
-        // Check ownership
         if (existingReview.userId !== tokenUserId) {
             return res
                 .status(403)
@@ -191,3 +188,4 @@ const deleteAReview = async (req, res) => {
     }
 };
 exports.deleteAReview = deleteAReview;
+//# sourceMappingURL=reviewController.js.map

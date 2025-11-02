@@ -24,7 +24,6 @@ const authenticateUser = (req, res, next) => {
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY);
-        // Attach the user to the request object using a type assertion
         req.user = decoded.data;
         next();
     }
@@ -37,3 +36,4 @@ const authenticateUser = (req, res, next) => {
     }
 };
 exports.authenticateUser = authenticateUser;
+//# sourceMappingURL=authMiddleware.js.map

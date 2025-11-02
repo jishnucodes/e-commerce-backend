@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: 'http://localhost:3000', // your Next.js frontend URL
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // your Next.js frontend URL
     credentials: true,               // allow cookies
   })
 );

@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateCoupon = exports.deleteCoupon = exports.updateCoupon = exports.getCouponById = exports.getCoupons = exports.createCoupon = void 0;
 const prisma_1 = require("../lib/prisma");
-//create coupon
 const createCoupon = async (req, res) => {
     const { user } = req;
     const { id, role } = user;
@@ -46,7 +45,6 @@ const createCoupon = async (req, res) => {
     }
 };
 exports.createCoupon = createCoupon;
-//Get All Coupons
 const getCoupons = async (req, res) => {
     const { user } = req;
     const { id, role } = user;
@@ -74,7 +72,6 @@ const getCoupons = async (req, res) => {
     }
 };
 exports.getCoupons = getCoupons;
-//Get Single Coupon by ID
 const getCouponById = async (req, res) => {
     const { user } = req;
     const { id, role } = user;
@@ -111,7 +108,6 @@ const getCouponById = async (req, res) => {
     }
 };
 exports.getCouponById = getCouponById;
-//Update Coupon
 const updateCoupon = async (req, res) => {
     const { user } = req;
     const { id, role } = user;
@@ -162,7 +158,6 @@ const updateCoupon = async (req, res) => {
     }
 };
 exports.updateCoupon = updateCoupon;
-//Delete Coupon
 const deleteCoupon = async (req, res) => {
     const { user } = req;
     const { id, role } = user;
@@ -196,7 +191,6 @@ const deleteCoupon = async (req, res) => {
     }
 };
 exports.deleteCoupon = deleteCoupon;
-// 📌 Validate & Apply Coupon (extra)
 const validateCoupon = async (req, res) => {
     const { user } = req;
     const { id, role } = user;
@@ -236,7 +230,6 @@ const validateCoupon = async (req, res) => {
                 .status(400)
                 .json({ status: false, message: "Order amount too low" });
         }
-        // Optional: Check applicability to products/categories
         if (coupon.applicableToProducts) {
             const applicableProducts = coupon.applicableToProducts;
             const match = productIds.some((id) => applicableProducts.includes(id));
@@ -253,7 +246,6 @@ const validateCoupon = async (req, res) => {
                     .status(400)
                     .json({ status: false, message: "Coupon not valid for categories" });
         }
-        // Apply discount logic
         let discount = 0;
         if (coupon.type === "PERCENTAGE") {
             discount = (orderAmount * Number(coupon.value)) / 100;
@@ -281,3 +273,4 @@ const validateCoupon = async (req, res) => {
     }
 };
 exports.validateCoupon = validateCoupon;
+//# sourceMappingURL=couponController.js.map

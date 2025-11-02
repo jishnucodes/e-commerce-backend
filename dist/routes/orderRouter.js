@@ -14,3 +14,4 @@ orderRouter.put("/:orderId", authMiddleware_1.authenticateUser, orderController_
 orderRouter.put("/:orderId/cancel", authMiddleware_1.authenticateUser, orderController_1.cancelOrderController);
 orderRouter.put("/:orderId/status", authMiddleware_1.authenticateUser, orderController_1.updateOrderStatusController);
 exports.default = orderRouter;
+//# sourceMappingURL=orderRouter.js.map

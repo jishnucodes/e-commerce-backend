@@ -10,7 +10,6 @@ const getCartItemsOfUser = async (req, res) => {
         if (!dbUser) {
             return res.status(404).json({ status: 'error', message: 'User not found' });
         }
-        // Check ownership
         if (dbUser.id !== userId) {
             return res
                 .status(403)
@@ -43,12 +42,10 @@ const addProductToCart = async (req, res) => {
     const { id: tokenUserId } = user;
     const { productVariantId, quantity } = req.body;
     try {
-        // Ensure user exists
         const dbUser = await prisma_1.db.user.findUnique({ where: { id: tokenUserId } });
         if (!dbUser) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
-        // Ensure product variant exists
         const productVariant = await prisma_1.db.productVariant.findUnique({
             where: { id: productVariantId },
         });
@@ -57,10 +54,8 @@ const addProductToCart = async (req, res) => {
                 .status(404)
                 .json({ status: "error", message: "Product variant not found" });
         }
-        // Find or create cart
         const cart = (await prisma_1.db.cart.findFirst({ where: { userId: tokenUserId } })) ||
             (await prisma_1.db.cart.create({ data: { userId: tokenUserId } }));
-        // Check if item already exists in cart
         const existingCartItem = await prisma_1.db.cartItem.findFirst({
             where: { cartId: cart.id, productVariantId },
         });
@@ -105,21 +100,18 @@ const removeProductFromCart = async (req, res) => {
         });
     }
     try {
-        // Ensure user exists
         const dbUser = await prisma_1.db.user.findUnique({ where: { id: tokenUserId } });
         if (!dbUser) {
             return res
                 .status(404)
                 .json({ status: "error", message: "User not found" });
         }
-        // Find the user's cart
         const cart = await prisma_1.db.cart.findFirst({ where: { userId: tokenUserId } });
         if (!cart) {
             return res
                 .status(404)
                 .json({ status: "error", message: "Cart not found" });
         }
-        // Find cart item belonging to this cart
         const cartItem = await prisma_1.db.cartItem.findFirst({
             where: { cartId: cart.id, productVariantId },
         });
@@ -131,14 +123,12 @@ const removeProductFromCart = async (req, res) => {
         }
         let updatedItem = null;
         if (cartItem.quantity > 1) {
-            // Decrement quantity
             updatedItem = await prisma_1.db.cartItem.update({
                 where: { id: cartItem.id },
                 data: { quantity: cartItem.quantity - 1 },
             });
         }
         else {
-            // Remove item entirely
             await prisma_1.db.cartItem.delete({ where: { id: cartItem.id } });
         }
         return res.status(200).json({
@@ -169,17 +159,14 @@ const updateCartItemQuantity = async (req, res) => {
         });
     }
     try {
-        // Ensure user exists
         const dbUser = await prisma_1.db.user.findUnique({ where: { id: tokenUserId } });
         if (!dbUser) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
-        // Find the user's cart
         const cart = await prisma_1.db.cart.findFirst({ where: { userId: tokenUserId } });
         if (!cart) {
             return res.status(404).json({ status: "error", message: "Cart not found" });
         }
-        // Find cart item belonging to this cart
         const cartItem = await prisma_1.db.cartItem.findFirst({
             where: { cartId: cart.id, productVariantId },
         });
@@ -189,7 +176,6 @@ const updateCartItemQuantity = async (req, res) => {
                 message: "Product not found in cart",
             });
         }
-        // Update cart item quantity
         const updatedItem = await prisma_1.db.cartItem.update({
             where: { id: cartItem.id },
             data: { quantity },
@@ -217,12 +203,10 @@ const clearCart = async (req, res) => {
         if (!dbUser) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
-        // Find the user's cart
         const cart = await prisma_1.db.cart.findFirst({ where: { userId: tokenUserId } });
         if (!cart) {
             return res.status(404).json({ status: "error", message: "Cart not found" });
         }
-        // Delete all cart items belonging to this cart
         await prisma_1.db.cartItem.deleteMany({ where: { cartId: cart.id } });
         return res.status(200).json({
             status: 'success',
@@ -239,3 +223,4 @@ const clearCart = async (req, res) => {
     }
 };
 exports.clearCart = clearCart;
+//# sourceMappingURL=cartController.js.map

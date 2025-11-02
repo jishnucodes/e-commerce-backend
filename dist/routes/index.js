@@ -22,3 +22,4 @@ router.use('/review', reviewRouter_1.default);
 router.use('/coupon', couponRouter_1.default);
 router.use('/orders', orderRouter_1.default);
 exports.default = router;
+//# sourceMappingURL=index.js.map

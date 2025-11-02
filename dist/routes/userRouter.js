@@ -18,3 +18,4 @@ userRouter.get('/getUser/:userId', authMiddleware_1.authenticateUser, userContro
 userRouter.get('/getAllUser', userController_1.getAllUsers);
 userRouter.post('/logout', authMiddleware_1.authenticateUser, userController_1.logout);
 exports.default = userRouter;
+//# sourceMappingURL=userRouter.js.map

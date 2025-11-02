@@ -33,7 +33,6 @@ const getOrdersController = async (req, res) => {
         const { page = "1", limit = "20", search = "", sortBy = "createdAt", order = "desc", status = "ACTIVE", } = req.query;
         const skip = (Number(page) - 1) * Number(limit);
         const take = Number(limit);
-        // --- Build dynamic filters ---
         const where = {
             ...(search && {
                 OR: [
@@ -42,8 +41,6 @@ const getOrdersController = async (req, res) => {
                     { slug: { contains: search, mode: "insensitive" } },
                 ],
             }),
-            // ...(categoryId && { categoryId: Number(categoryId) }),
-            // ...(brandId && { brandId: Number(brandId) }),
             ...(status && { status }),
         };
         const inputData = {
@@ -53,10 +50,9 @@ const getOrdersController = async (req, res) => {
             sortBy,
             order,
         };
-        // 🧠 Call service function
         const { orders, total } = await (0, orderService_1.getOrders)({
             ...inputData,
-            order: order === "asc" ? "asc" : "desc", // Ensure type is "asc" | "desc"
+            order: order === "asc" ? "asc" : "desc",
         });
         return res.status(200).json({
             status: true,
@@ -220,3 +216,4 @@ const updateOrderStatusController = async (req, res) => {
     }
 };
 exports.updateOrderStatusController = updateOrderStatusController;
+//# sourceMappingURL=orderController.js.map

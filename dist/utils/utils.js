@@ -12,3 +12,4 @@ const generateToken = (user, expiresIn) => {
     return jsonwebtoken_1.default.sign({ data: user }, secret_key, options);
 };
 exports.default = generateToken;
+//# sourceMappingURL=utils.js.map

@@ -13,3 +13,4 @@ couponRouter.post('/create', authMiddleware_1.authenticateUser, couponController
 couponRouter.put('/:couponId', authMiddleware_1.authenticateUser, couponController_1.updateCoupon);
 couponRouter.delete('/:couponId', authMiddleware_1.authenticateUser, couponController_1.deleteCoupon);
 exports.default = couponRouter;
+//# sourceMappingURL=couponRouter.js.map

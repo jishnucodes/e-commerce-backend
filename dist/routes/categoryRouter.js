@@ -13,3 +13,4 @@ categoryRouter.post('/create', authMiddleware_1.authenticateUser, categoryContro
 categoryRouter.put('/:categoryId', authMiddleware_1.authenticateUser, categoryController_1.updateCategory);
 categoryRouter.delete('/:categoryId', authMiddleware_1.authenticateUser, categoryController_1.deleteCategory);
 exports.default = categoryRouter;
+//# sourceMappingURL=categoryRouter.js.map

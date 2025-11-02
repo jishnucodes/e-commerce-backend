@@ -1,0 +1,1 @@
+{"version":3,"file":"generateEmail.js","sourceRoot":"","sources":["../../src/utils/generateEmail.ts"],"names":[],"mappings":";;AAAA,mCAAgC;AAEhC,MAAM,MAAM,GAAG,IAAI,eAAM,CAAC,sCAAsC,CAAC,CAAC;AAElE,MAAM,CAAC,MAAM,CAAC,IAAI,CAAC;IACjB,IAAI,EAAE,uBAAuB;IAC7B,EAAE,EAAE,qBAAqB;IACzB,OAAO,EAAE,aAAa;IACtB,IAAI,EAAE,+DAA+D;CACtE,CAAC,CAAC"}

@@ -4,19 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendSignInMessage = void 0;
-// inngest/functions/sendSignInEmail.ts
 const client_1 = require("../client");
 const nodemailer_1 = __importDefault(require("nodemailer"));
-// Environment Variables
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-// Create nodemailer transporter
 const createTransporter = () => {
     if (!EMAIL_USER || !EMAIL_PASS) {
         throw new Error("EMAIL_USER and EMAIL_PASS environment variables are required");
     }
     return nodemailer_1.default.createTransport({
-        service: 'gmail', // Or Outlook, SES, etc.
+        service: 'gmail',
         auth: {
             user: EMAIL_USER,
             pass: EMAIL_PASS,
@@ -92,3 +89,4 @@ If this wasn't you, please reset your password and contact support immediately.
         };
     }
 });
+//# sourceMappingURL=sendSignInEmail.js.map

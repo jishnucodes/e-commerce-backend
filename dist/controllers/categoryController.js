@@ -45,10 +45,6 @@ const getACategory = async (req, res) => {
         }
         const category = await prisma_1.db.category.findUnique({
             where: { id: categoryId },
-            // include: {
-            //   subCategories: true,
-            //   products: true,
-            // },
         });
         return res.status(200).json({
             status: true,
@@ -217,3 +213,4 @@ const deleteCategory = async (req, res) => {
     }
 };
 exports.deleteCategory = deleteCategory;
+//# sourceMappingURL=categoryController.js.map

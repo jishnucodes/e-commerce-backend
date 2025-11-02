@@ -14,8 +14,8 @@ async function main() {
             email: "admin@ecommerce.com",
             userName: "Admin",
             hashedPassword: hashedNewPassword,
-            userType: "ADMIN", // Default user type
-            role: "ADMIN", // Default role
+            userType: "ADMIN",
+            role: "ADMIN",
         },
     });
     console.log("Admin user created or updated:", user);
@@ -29,3 +29,4 @@ main()
     await prisma_1.db.$disconnect();
     process.exit(1);
 });
+//# sourceMappingURL=seed.js.map

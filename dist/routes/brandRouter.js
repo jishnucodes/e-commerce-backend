@@ -13,3 +13,4 @@ brandRouter.post('/create', authMiddleware_1.authenticateUser, brandController_1
 brandRouter.put('/:brandId', authMiddleware_1.authenticateUser, brandController_1.updateBrand);
 brandRouter.delete('/:brandId', authMiddleware_1.authenticateUser, brandController_1.deleteBrand);
 exports.default = brandRouter;
+//# sourceMappingURL=brandRouter.js.map

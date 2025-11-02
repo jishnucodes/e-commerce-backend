@@ -8,3 +8,4 @@ resend.emails.send({
     subject: 'Hello World',
     html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
 });
+//# sourceMappingURL=generateEmail.js.map

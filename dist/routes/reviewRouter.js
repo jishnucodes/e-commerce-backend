@@ -12,3 +12,4 @@ reviewRouter.post('/create', authMiddleware_1.authenticateUser, reviewController
 reviewRouter.put('/update/:reviewId', authMiddleware_1.authenticateUser, reviewController_1.updateReview);
 reviewRouter.delete('/delete/:reviewId', authMiddleware_1.authenticateUser, reviewController_1.deleteAReview);
 exports.default = reviewRouter;
+//# sourceMappingURL=reviewRouter.js.map

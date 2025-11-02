@@ -58,86 +58,6 @@ const getBrand = async (req, res) => {
     }
 };
 exports.getBrand = getBrand;
-// export const getBrands = async (req: Request, res: Response) => {
-//   try {
-//     const brands = await db.brand.findMany({
-//       include: {
-//         products: true,
-//       },
-//     });
-//     const formatted = brands.map((brand) => ({
-//       ...brand,
-//       image: brand?.image
-//         ? `data:image/jpeg;base64,${Buffer.from(brand.image).toString("base64")}`
-//         : null,
-//     }));
-//     return res.status(200).json({
-//       status: true,
-//       message: "Brands retrieved successfully",
-//       data: formatted,
-//     });
-//   } catch (error) {
-//     console.error("Error retrieving brands:", error);
-//     return res.status(500).json({
-//       status: false,
-//       message: "Internal server error",
-//     });
-//   }
-// };
-// export const createBrand = async (req: Request, res: Response) => {
-//   const { user } = req as AuthenticatedRequest;
-//   const { id, role } = user;
-//   const { brandName, slug, image } = req.body;
-//   const imageBuffer = image ? Buffer.from(image, "base64") : null;
-//   if (!id) {
-//     return res.status(401).json({ status: false, message: "Unauthorized" });
-//   }
-//   // Optional: lock this down to admins (or whatever roles you allow)
-//   if (role !== "ADMIN") {
-//     return res.status(403).json({ success: false, message: "Forbidden" });
-//   }
-//   try {
-//     const user = await db.user.findUnique({ where: { id: id } });
-//     if (!user) {
-//       return res
-//         .status(404)
-//         .json({ status: false, message: "User not found" });
-//     }
-//     const isSlugExist = await db.brand.findUnique({
-//       where: {
-//         slug,
-//       },
-//     });
-//     if (isSlugExist) {
-//       return res
-//         .status(400)
-//         .json({
-//           status: false,
-//           message: "Already the slug name is existing",
-//         });
-//     }
-//     const newBrand = await db.brand.create({
-//       data: {
-//         brandName,
-//         slug,
-//         image: imageBuffer,
-//       },
-//     });
-//     return res.status(201).json({
-//       status: true,
-//       message: "Brand created successfully",
-//       data: {
-//         id: newBrand.id,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error creating brand", error);
-//     return res.status(500).json({
-//       status: false,
-//       message: "Internal server error",
-//     });
-//   }
-// };
 const getBrands = async (req, res) => {
     try {
         const brands = await prisma_1.db.brand.findMany({
@@ -165,6 +85,7 @@ const getBrands = async (req, res) => {
 };
 exports.getBrands = getBrands;
 const createBrand = async (req, res) => {
+    var _a;
     const { user } = req;
     const { id, role } = user;
     const { brandName, slug, image } = req.body;
@@ -189,7 +110,7 @@ const createBrand = async (req, res) => {
         let imageBuffer = null;
         let mimeType = null;
         if (image) {
-            mimeType = image.match(/^data:(image\/\w+);base64/)?.[1] || null;
+            mimeType = ((_a = image.match(/^data:(image\/\w+);base64/)) === null || _a === void 0 ? void 0 : _a[1]) || null;
             const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
             imageBuffer = Buffer.from(base64Data, "base64");
         }
@@ -216,6 +137,7 @@ const createBrand = async (req, res) => {
 };
 exports.createBrand = createBrand;
 const updateBrand = async (req, res) => {
+    var _a;
     const { user } = req;
     const { id, role } = user;
     if (!id) {
@@ -240,7 +162,7 @@ const updateBrand = async (req, res) => {
         let imageBuffer = null;
         let mimeType = null;
         if (image) {
-            mimeType = image.match(/^data:(image\/\w+);base64/)?.[1] || null;
+            mimeType = ((_a = image.match(/^data:(image\/\w+);base64/)) === null || _a === void 0 ? void 0 : _a[1]) || null;
             const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
             imageBuffer = Buffer.from(base64Data, "base64");
         }
@@ -309,3 +231,4 @@ const deleteBrand = async (req, res) => {
     }
 };
 exports.deleteBrand = deleteBrand;
+//# sourceMappingURL=brandController.js.map

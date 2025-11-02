@@ -10,7 +10,6 @@ const getWishListOfUser = async (req, res) => {
         if (!dbUser) {
             return res.status(404).json({ status: 'error', message: 'User not found' });
         }
-        // Check ownership
         if (dbUser.id !== tokenUserId) {
             return res
                 .status(403)
@@ -41,7 +40,6 @@ const addProductToWishList = async (req, res) => {
         if (!dbUser) {
             return res.status(404).json({ status: 'error', message: 'User not found' });
         }
-        // Check ownership
         if (dbUser.id !== tokenUserId) {
             return res
                 .status(403)
@@ -51,7 +49,6 @@ const addProductToWishList = async (req, res) => {
         if (!product) {
             return res.status(404).json({ status: 'error', message: 'Product not found' });
         }
-        // Build update data dynamically
         const wishListData = {};
         if (tokenUserId !== undefined)
             wishListData.userId = tokenUserId;
@@ -94,7 +91,6 @@ const removeProductFromWishList = async (req, res) => {
         if (!dbUser) {
             return res.status(404).json({ status: 'error', message: 'User not found' });
         }
-        // Check ownership
         if (dbUser.id !== tokenUserId) {
             return res
                 .status(403)
@@ -128,7 +124,6 @@ const clearWishList = async (req, res) => {
         if (!dbUser) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
-        // Check ownership
         if (dbUser.id !== tokenUserId) {
             return res
                 .status(403)
@@ -150,3 +145,4 @@ const clearWishList = async (req, res) => {
     }
 };
 exports.clearWishList = clearWishList;
+//# sourceMappingURL=wishListController.js.map

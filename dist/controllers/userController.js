@@ -28,8 +28,8 @@ const userSignup = async (req, res) => {
                 userName,
                 email,
                 hashedPassword,
-                userType: "USER", // Default user type
-                role: "USER", // Default role
+                userType: "USER",
+                role: "USER",
             },
         });
         return res.status(201).json({
@@ -51,39 +51,6 @@ const userSignup = async (req, res) => {
     }
 };
 exports.userSignup = userSignup;
-// export const userLogin = async (req: Request, res: Response) => {
-//   const { email, password } = req.body;
-//   try {
-//     const user = await db.user.findUnique({ where: { email } });
-//     if (!user) {
-//       return res.status(400).json({
-//         status: "error",
-//         message: "User not found",
-//       });
-//     }
-//     const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
-//     if (!isPasswordValid) {
-//       return res.status(400).json({
-//         status: "error",
-//         message: "Invalid password",
-//       });
-//     }
-//     const otp = generateOtp()
-//     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
-//     await db.otpToken.create({ data: { email, token: otp, expiresAt } });
-//    await inngest.send({
-//     name: "user/otp-requested",
-//     data: { name: user.userName, email, otp },
-//   });
-//   return res.status(200).json({ message: "OTP sent to email" });
-//   } catch (error) {
-//     console.error("Login error:", error);
-//     return res.status(500).json({
-//       status: "error",
-//       message: "Something went wrong",
-//     });
-//   }
-// }
 const userLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -109,21 +76,19 @@ const userLogin = async (req, res) => {
                 signInTime: new Date().toISOString(),
             },
         });
-        //short lived access token
         const accessToken = (0, utils_1.default)({ id: user.id, role: user.role }, "15m");
-        //short lived refresh token
         const refreshToken = (0, utils_1.default)({ id: user.id, role: user.role }, "7d");
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // only over HTTPS in production
+            secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
-            maxAge: 15 * 60 * 1000, // 2 minutes in ms
+            maxAge: 15 * 60 * 1000,
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return res.status(200).json({
             status: true,
@@ -218,7 +183,7 @@ const forgotPassword = async (req, res) => {
             });
         }
         const otp = (0, generateOtp_1.generateOtp)();
-        const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
         await prisma_1.db.otpToken.create({ data: { email, token: otp, expiresAt } });
         await inngest_1.inngest.send({
             name: "user/otp-requested",
@@ -363,3 +328,4 @@ const getAllUsers = async (req, res) => {
     }
 };
 exports.getAllUsers = getAllUsers;
+//# sourceMappingURL=userController.js.map

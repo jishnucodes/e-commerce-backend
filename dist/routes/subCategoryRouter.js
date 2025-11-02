@@ -14,3 +14,4 @@ subCategoryRouter.put('/:subCategoryId', authMiddleware_1.authenticateUser, subC
 subCategoryRouter.delete('/:subCategoryId', authMiddleware_1.authenticateUser, subCategoryController_1.deleteSubCategory);
 subCategoryRouter.get('/list/:categoryId', subCategoryController_1.listSubCategoriesByCategoryId);
 exports.default = subCategoryRouter;
+//# sourceMappingURL=subCategoryRouter.js.map
