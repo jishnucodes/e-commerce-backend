@@ -1,4 +1,6 @@
-import { PrismaClient } from "../prisma/client";
+// import { PrismaClient } from "../prisma/client";
+import { PrismaClient } from "@prisma/client";
+
 
 // Extend globalThis to include a typed prisma client
 declare global {
