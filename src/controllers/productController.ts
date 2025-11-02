@@ -3,7 +3,6 @@ import { AuthenticatedRequest } from "../middleware/authMiddleware";
 import { Prisma } from "@prisma/client";
 import { db } from "../lib/prisma";
 import { buildProductDTO } from "../dto/productDTO";
-import slugify from "slugify";
 
 // --- Utility: retry wrapper ---
 async function retry<T>(
