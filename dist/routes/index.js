@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
+const userRouter_1 = __importDefault(require("./userRouter"));
+const brandRouter_1 = __importDefault(require("./brandRouter"));
+const categoryRouter_1 = __importDefault(require("./categoryRouter"));
+const subCategoryRouter_1 = __importDefault(require("./subCategoryRouter"));
+const productRouter_1 = __importDefault(require("./productRouter"));
+const reviewRouter_1 = __importDefault(require("./reviewRouter"));
+const couponRouter_1 = __importDefault(require("./couponRouter"));
+const orderRouter_1 = __importDefault(require("./orderRouter"));
+router.use('/user', userRouter_1.default);
+router.use('/brand', brandRouter_1.default);
+router.use('/category', categoryRouter_1.default);
+router.use('/subCategory', subCategoryRouter_1.default);
+router.use('/product', productRouter_1.default);
+router.use('/review', reviewRouter_1.default);
+router.use('/coupon', couponRouter_1.default);
+router.use('/orders', orderRouter_1.default);
+exports.default = router;
