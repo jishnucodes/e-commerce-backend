@@ -5,10 +5,15 @@ import { AuthenticatedRequest } from "../middleware/authMiddleware";
 export const getCategories = async (req: Request, res: Response) => {
   try {
     const categories = await db.category.findMany({
-      // include: {
-      //   subCategories: true,
-      //   products: true,
-      // },
+      include: {
+        subCategories: {
+          select: {
+            id: true,
+            subCategoryName: true,
+            slug: true,
+          }
+        }
+      },
     });
     return res.status(200).json({
       status: true,

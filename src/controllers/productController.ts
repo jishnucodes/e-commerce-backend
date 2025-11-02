@@ -325,6 +325,7 @@ export const createProduct = async (req: Request, res: Response) => {
           status: productObj.status,
           brandId: productObj.brandId,
           categoryId: productObj.categoryId,
+          subCategoryId: productObj.subCategoryId,
           metaTitle: productObj.metaTitle,
           metaDescription: productObj.metaDescription,
           basePrice: productObj.basePrice,
@@ -474,6 +475,7 @@ export const updateProduct = async (req: Request, res: Response) => {
           status: productObj.status,
           brandId: productObj.brandId,
           categoryId: productObj.categoryId,
+          subCategoryId: productObj.subCategoryId,
           metaTitle: productObj.metaTitle,
           metaDescription: productObj.metaDescription,
           basePrice: productObj.basePrice,
@@ -911,6 +913,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 export const listProducts = async (req: Request, res: Response) => {
   try {
+    
     // --- Query params ---
     const {
       page = 1,
@@ -921,6 +924,7 @@ export const listProducts = async (req: Request, res: Response) => {
       categoryId,
       brandId,
       status = "ACTIVE",
+      slug
     } = req.query as Record<string, string>;
 
     const skip = (Number(page) - 1) * Number(limit);
@@ -938,6 +942,7 @@ export const listProducts = async (req: Request, res: Response) => {
       ...(categoryId && { categoryId: Number(categoryId) }),
       ...(brandId && { brandId: Number(brandId) }),
       ...(status && { status }),
+      ...(slug && { slug: { contains: slug, mode: "insensitive" } }),
     };
 
     // --- Query in parallel ---
@@ -1003,34 +1008,84 @@ export const listProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const getAProduct = async (req: Request, res: Response) => {
-  const { user } = req as AuthenticatedRequest;
-  const { id: userId, role } = user;
-
-  const productId = Number(req.params.productId);
-
-  if (Number.isNaN(productId)) {
-    return res.status(400).json({
-      status: false,
-      message: "Product ID must be a valid number",
-    });
-  }
+export const listProductsByCategoryORSubCategorySlug = async (req: Request, res: Response) => {
+  const { slug } = req.params;
 
   try {
-    const dbUser = await db.user.findUnique({ where: { id: userId } });
-    if (!dbUser) {
-      return res.status(404).json({ status: false, message: "User not found" });
+    const category = await db.category.findUnique({
+      where: { slug },
+    });
+
+    const subCategory = category
+      ? null
+      : await db.subCategory.findUnique({
+          where: { slug },
+        });
+
+    if (!category && !subCategory) {
+      return res.status(404).json({
+        status: false,
+        message: "Category or Subcategory not found",
+      });
     }
 
+    const whereCondition = category
+      ? { categoryId: category.id }
+      : { subCategoryId: subCategory!.id };
+
+    const products = await db.product.findMany({
+      where: whereCondition,
+      include: { images: true, variants: true },
+    });
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "No products found for this slug",
+      });
+    }
+
+    const modifiedProducts = products.map((product) => ({
+      ...product,
+      images: product.images.map((img) => ({
+        ...img,
+        imageUrl: img?.imageUrl
+          ? `data:image/jpeg;base64,${Buffer.from(img.imageUrl).toString("base64")}`
+          : null,
+      })),
+    }));
+
+    return res.status(200).json({
+      status: true,
+      message: "Products retrieved successfully",
+      data: modifiedProducts,
+    });
+  } catch (error) {
+    console.error("Error retrieving products:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+
+export const getAProductBySlug = async (req: Request, res: Response) => {
+  const { user } = req as AuthenticatedRequest;
+  const { slug } = req.params;
+
+  try {
     const existingProduct = await db.product.findUnique({
-      where: { id: productId },
+      where: { slug },
       include: {
-        variants: true,
+        variants: {
+          include: {
+            inventory: true
+          }
+        },
         images: true,
       },
     });
-
-    console.log("existing product", existingProduct);
 
     if (!existingProduct) {
       return res
@@ -1048,8 +1103,6 @@ export const getAProduct = async (req: Request, res: Response) => {
           : null,
       })),
     };
-
-    console.log("modified product", modifiedProduct);
 
     return res.status(200).json({
       status: true,

@@ -58,6 +58,7 @@ type ProductDTO = {
     status: ProductStatus;
     brandId: number;
     categoryId: number;
+    subCategoryId: number;
     metaTitle: string;
     metaDescription: string;
     basePrice: number;
@@ -78,6 +79,7 @@ export const buildProductDTO = (productObj: Partial<ProductDTO>): ProductDTO => 
     status: productObj.status ?? ProductStatus.ACTIVE,
     brandId: productObj.brandId ?? 0,
     categoryId: productObj.categoryId ?? 0,
+    subCategoryId: productObj.subCategoryId ?? 0,
     metaTitle: productObj.metaTitle ?? '',
     metaDescription: productObj.metaDescription ?? '',
     basePrice: productObj.basePrice ?? 0,

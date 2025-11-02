@@ -3881,6 +3881,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type SubCategoryCountOutputType
+   */
+
+  export type SubCategoryCountOutputType = {
+    products: number
+  }
+
+  export type SubCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    products?: boolean | SubCategoryCountOutputTypeCountProductsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SubCategoryCountOutputType without action
+   */
+  export type SubCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategoryCountOutputType
+     */
+    select?: SubCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubCategoryCountOutputType without action
+   */
+  export type SubCategoryCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
+  }
+
+
+  /**
    * Count Type BrandCountOutputType
    */
 
@@ -6581,6 +6612,7 @@ export namespace Prisma {
     id: number | null
     brandId: number | null
     categoryId: number | null
+    subCategoryId: number | null
     basePrice: Decimal | null
     createdBy: number | null
     modifiedBy: number | null
@@ -6590,6 +6622,7 @@ export namespace Prisma {
     id: number | null
     brandId: number | null
     categoryId: number | null
+    subCategoryId: number | null
     basePrice: Decimal | null
     createdBy: number | null
     modifiedBy: number | null
@@ -6603,6 +6636,7 @@ export namespace Prisma {
     status: $Enums.ProductStatus | null
     brandId: number | null
     categoryId: number | null
+    subCategoryId: number | null
     metaTitle: string | null
     metaDescription: string | null
     basePrice: Decimal | null
@@ -6620,6 +6654,7 @@ export namespace Prisma {
     status: $Enums.ProductStatus | null
     brandId: number | null
     categoryId: number | null
+    subCategoryId: number | null
     metaTitle: string | null
     metaDescription: string | null
     basePrice: Decimal | null
@@ -6637,6 +6672,7 @@ export namespace Prisma {
     status: number
     brandId: number
     categoryId: number
+    subCategoryId: number
     metaTitle: number
     metaDescription: number
     basePrice: number
@@ -6652,6 +6688,7 @@ export namespace Prisma {
     id?: true
     brandId?: true
     categoryId?: true
+    subCategoryId?: true
     basePrice?: true
     createdBy?: true
     modifiedBy?: true
@@ -6661,6 +6698,7 @@ export namespace Prisma {
     id?: true
     brandId?: true
     categoryId?: true
+    subCategoryId?: true
     basePrice?: true
     createdBy?: true
     modifiedBy?: true
@@ -6674,6 +6712,7 @@ export namespace Prisma {
     status?: true
     brandId?: true
     categoryId?: true
+    subCategoryId?: true
     metaTitle?: true
     metaDescription?: true
     basePrice?: true
@@ -6691,6 +6730,7 @@ export namespace Prisma {
     status?: true
     brandId?: true
     categoryId?: true
+    subCategoryId?: true
     metaTitle?: true
     metaDescription?: true
     basePrice?: true
@@ -6708,6 +6748,7 @@ export namespace Prisma {
     status?: true
     brandId?: true
     categoryId?: true
+    subCategoryId?: true
     metaTitle?: true
     metaDescription?: true
     basePrice?: true
@@ -6812,6 +6853,7 @@ export namespace Prisma {
     status: $Enums.ProductStatus
     brandId: number | null
     categoryId: number | null
+    subCategoryId: number | null
     metaTitle: string | null
     metaDescription: string | null
     basePrice: Decimal | null
@@ -6848,6 +6890,7 @@ export namespace Prisma {
     status?: boolean
     brandId?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     metaTitle?: boolean
     metaDescription?: boolean
     basePrice?: boolean
@@ -6857,6 +6900,7 @@ export namespace Prisma {
     modifiedBy?: boolean
     brand?: boolean | Product$brandArgs<ExtArgs>
     category?: boolean | Product$categoryArgs<ExtArgs>
+    subCategory?: boolean | Product$subCategoryArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     reviews?: boolean | Product$reviewsArgs<ExtArgs>
@@ -6873,6 +6917,7 @@ export namespace Prisma {
     status?: boolean
     brandId?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     metaTitle?: boolean
     metaDescription?: boolean
     basePrice?: boolean
@@ -6882,6 +6927,7 @@ export namespace Prisma {
     modifiedBy?: boolean
     brand?: boolean | Product$brandArgs<ExtArgs>
     category?: boolean | Product$categoryArgs<ExtArgs>
+    subCategory?: boolean | Product$subCategoryArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6892,6 +6938,7 @@ export namespace Prisma {
     status?: boolean
     brandId?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     metaTitle?: boolean
     metaDescription?: boolean
     basePrice?: boolean
@@ -6901,6 +6948,7 @@ export namespace Prisma {
     modifiedBy?: boolean
     brand?: boolean | Product$brandArgs<ExtArgs>
     category?: boolean | Product$categoryArgs<ExtArgs>
+    subCategory?: boolean | Product$subCategoryArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectScalar = {
@@ -6911,6 +6959,7 @@ export namespace Prisma {
     status?: boolean
     brandId?: boolean
     categoryId?: boolean
+    subCategoryId?: boolean
     metaTitle?: boolean
     metaDescription?: boolean
     basePrice?: boolean
@@ -6920,10 +6969,11 @@ export namespace Prisma {
     modifiedBy?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "slug" | "status" | "brandId" | "categoryId" | "metaTitle" | "metaDescription" | "basePrice" | "createdAt" | "updatedAt" | "createdBy" | "modifiedBy", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "slug" | "status" | "brandId" | "categoryId" | "subCategoryId" | "metaTitle" | "metaDescription" | "basePrice" | "createdAt" | "updatedAt" | "createdBy" | "modifiedBy", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     brand?: boolean | Product$brandArgs<ExtArgs>
     category?: boolean | Product$categoryArgs<ExtArgs>
+    subCategory?: boolean | Product$subCategoryArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     reviews?: boolean | Product$reviewsArgs<ExtArgs>
@@ -6934,10 +6984,12 @@ export namespace Prisma {
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     brand?: boolean | Product$brandArgs<ExtArgs>
     category?: boolean | Product$categoryArgs<ExtArgs>
+    subCategory?: boolean | Product$subCategoryArgs<ExtArgs>
   }
   export type ProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     brand?: boolean | Product$brandArgs<ExtArgs>
     category?: boolean | Product$categoryArgs<ExtArgs>
+    subCategory?: boolean | Product$subCategoryArgs<ExtArgs>
   }
 
   export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6945,6 +6997,7 @@ export namespace Prisma {
     objects: {
       brand: Prisma.$BrandPayload<ExtArgs> | null
       category: Prisma.$CategoryPayload<ExtArgs> | null
+      subCategory: Prisma.$SubCategoryPayload<ExtArgs> | null
       variants: Prisma.$ProductVariantPayload<ExtArgs>[]
       images: Prisma.$ProductImagePayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
@@ -6959,6 +7012,7 @@ export namespace Prisma {
       status: $Enums.ProductStatus
       brandId: number | null
       categoryId: number | null
+      subCategoryId: number | null
       metaTitle: string | null
       metaDescription: string | null
       basePrice: Prisma.Decimal | null
@@ -7362,6 +7416,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     brand<T extends Product$brandArgs<ExtArgs> = {}>(args?: Subset<T, Product$brandArgs<ExtArgs>>): Prisma__BrandClient<$Result.GetResult<Prisma.$BrandPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     category<T extends Product$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Product$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    subCategory<T extends Product$subCategoryArgs<ExtArgs> = {}>(args?: Subset<T, Product$subCategoryArgs<ExtArgs>>): Prisma__SubCategoryClient<$Result.GetResult<Prisma.$SubCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     variants<T extends Product$variantsArgs<ExtArgs> = {}>(args?: Subset<T, Product$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     images<T extends Product$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Product$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Product$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Product$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7403,6 +7458,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Product", 'ProductStatus'>
     readonly brandId: FieldRef<"Product", 'Int'>
     readonly categoryId: FieldRef<"Product", 'Int'>
+    readonly subCategoryId: FieldRef<"Product", 'Int'>
     readonly metaTitle: FieldRef<"Product", 'String'>
     readonly metaDescription: FieldRef<"Product", 'String'>
     readonly basePrice: FieldRef<"Product", 'Decimal'>
@@ -7841,6 +7897,25 @@ export namespace Prisma {
      */
     include?: CategoryInclude<ExtArgs> | null
     where?: CategoryWhereInput
+  }
+
+  /**
+   * Product.subCategory
+   */
+  export type Product$subCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubCategory
+     */
+    select?: SubCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubCategory
+     */
+    omit?: SubCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubCategoryInclude<ExtArgs> | null
+    where?: SubCategoryWhereInput
   }
 
   /**
@@ -13007,6 +13082,8 @@ export namespace Prisma {
     createdBy?: boolean
     modifiedBy?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    products?: boolean | SubCategory$productsArgs<ExtArgs>
+    _count?: boolean | SubCategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subCategory"]>
 
   export type SubCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13047,6 +13124,8 @@ export namespace Prisma {
   export type SubCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "subCategoryName" | "slug" | "categoryId" | "createdAt" | "updatedAt" | "createdBy" | "modifiedBy", ExtArgs["result"]["subCategory"]>
   export type SubCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    products?: boolean | SubCategory$productsArgs<ExtArgs>
+    _count?: boolean | SubCategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -13059,6 +13138,7 @@ export namespace Prisma {
     name: "SubCategory"
     objects: {
       category: Prisma.$CategoryPayload<ExtArgs>
+      products: Prisma.$ProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -13464,6 +13544,7 @@ export namespace Prisma {
   export interface Prisma__SubCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    products<T extends SubCategory$productsArgs<ExtArgs> = {}>(args?: Subset<T, SubCategory$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13894,6 +13975,30 @@ export namespace Prisma {
      * Limit how many SubCategories to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SubCategory.products
+   */
+  export type SubCategory$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    cursor?: ProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
   /**
@@ -38441,6 +38546,7 @@ export namespace Prisma {
     status: 'status',
     brandId: 'brandId',
     categoryId: 'categoryId',
+    subCategoryId: 'subCategoryId',
     metaTitle: 'metaTitle',
     metaDescription: 'metaDescription',
     basePrice: 'basePrice',
@@ -39345,6 +39451,7 @@ export namespace Prisma {
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     brandId?: IntNullableFilter<"Product"> | number | null
     categoryId?: IntNullableFilter<"Product"> | number | null
+    subCategoryId?: IntNullableFilter<"Product"> | number | null
     metaTitle?: StringNullableFilter<"Product"> | string | null
     metaDescription?: StringNullableFilter<"Product"> | string | null
     basePrice?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
@@ -39354,6 +39461,7 @@ export namespace Prisma {
     modifiedBy?: IntNullableFilter<"Product"> | number | null
     brand?: XOR<BrandNullableScalarRelationFilter, BrandWhereInput> | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    subCategory?: XOR<SubCategoryNullableScalarRelationFilter, SubCategoryWhereInput> | null
     variants?: ProductVariantListRelationFilter
     images?: ProductImageListRelationFilter
     reviews?: ReviewListRelationFilter
@@ -39369,6 +39477,7 @@ export namespace Prisma {
     status?: SortOrder
     brandId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
+    subCategoryId?: SortOrderInput | SortOrder
     metaTitle?: SortOrderInput | SortOrder
     metaDescription?: SortOrderInput | SortOrder
     basePrice?: SortOrderInput | SortOrder
@@ -39378,6 +39487,7 @@ export namespace Prisma {
     modifiedBy?: SortOrderInput | SortOrder
     brand?: BrandOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
+    subCategory?: SubCategoryOrderByWithRelationInput
     variants?: ProductVariantOrderByRelationAggregateInput
     images?: ProductImageOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
@@ -39396,6 +39506,7 @@ export namespace Prisma {
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     brandId?: IntNullableFilter<"Product"> | number | null
     categoryId?: IntNullableFilter<"Product"> | number | null
+    subCategoryId?: IntNullableFilter<"Product"> | number | null
     metaTitle?: StringNullableFilter<"Product"> | string | null
     metaDescription?: StringNullableFilter<"Product"> | string | null
     basePrice?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
@@ -39405,6 +39516,7 @@ export namespace Prisma {
     modifiedBy?: IntNullableFilter<"Product"> | number | null
     brand?: XOR<BrandNullableScalarRelationFilter, BrandWhereInput> | null
     category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    subCategory?: XOR<SubCategoryNullableScalarRelationFilter, SubCategoryWhereInput> | null
     variants?: ProductVariantListRelationFilter
     images?: ProductImageListRelationFilter
     reviews?: ReviewListRelationFilter
@@ -39420,6 +39532,7 @@ export namespace Prisma {
     status?: SortOrder
     brandId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
+    subCategoryId?: SortOrderInput | SortOrder
     metaTitle?: SortOrderInput | SortOrder
     metaDescription?: SortOrderInput | SortOrder
     basePrice?: SortOrderInput | SortOrder
@@ -39445,6 +39558,7 @@ export namespace Prisma {
     status?: EnumProductStatusWithAggregatesFilter<"Product"> | $Enums.ProductStatus
     brandId?: IntNullableWithAggregatesFilter<"Product"> | number | null
     categoryId?: IntNullableWithAggregatesFilter<"Product"> | number | null
+    subCategoryId?: IntNullableWithAggregatesFilter<"Product"> | number | null
     metaTitle?: StringNullableWithAggregatesFilter<"Product"> | string | null
     metaDescription?: StringNullableWithAggregatesFilter<"Product"> | string | null
     basePrice?: DecimalNullableWithAggregatesFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
@@ -39798,6 +39912,7 @@ export namespace Prisma {
     createdBy?: IntNullableFilter<"SubCategory"> | number | null
     modifiedBy?: IntNullableFilter<"SubCategory"> | number | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    products?: ProductListRelationFilter
   }
 
   export type SubCategoryOrderByWithRelationInput = {
@@ -39810,6 +39925,7 @@ export namespace Prisma {
     createdBy?: SortOrderInput | SortOrder
     modifiedBy?: SortOrderInput | SortOrder
     category?: CategoryOrderByWithRelationInput
+    products?: ProductOrderByRelationAggregateInput
   }
 
   export type SubCategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -39825,6 +39941,7 @@ export namespace Prisma {
     createdBy?: IntNullableFilter<"SubCategory"> | number | null
     modifiedBy?: IntNullableFilter<"SubCategory"> | number | null
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    products?: ProductListRelationFilter
   }, "id" | "slug">
 
   export type SubCategoryOrderByWithAggregationInput = {
@@ -41648,6 +41765,7 @@ export namespace Prisma {
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -41663,6 +41781,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -41691,6 +41810,7 @@ export namespace Prisma {
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -41706,6 +41826,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -41728,6 +41849,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -41759,6 +41881,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -42127,6 +42250,7 @@ export namespace Prisma {
     createdBy?: number | null
     modifiedBy?: number | null
     category: CategoryCreateNestedOneWithoutSubCategoriesInput
+    products?: ProductCreateNestedManyWithoutSubCategoryInput
   }
 
   export type SubCategoryUncheckedCreateInput = {
@@ -42138,6 +42262,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdBy?: number | null
     modifiedBy?: number | null
+    products?: ProductUncheckedCreateNestedManyWithoutSubCategoryInput
   }
 
   export type SubCategoryUpdateInput = {
@@ -42148,6 +42273,7 @@ export namespace Prisma {
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     category?: CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput
+    products?: ProductUpdateManyWithoutSubCategoryNestedInput
   }
 
   export type SubCategoryUncheckedUpdateInput = {
@@ -42159,6 +42285,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    products?: ProductUncheckedUpdateManyWithoutSubCategoryNestedInput
   }
 
   export type SubCategoryCreateManyInput = {
@@ -44182,6 +44309,11 @@ export namespace Prisma {
     isNot?: CategoryWhereInput | null
   }
 
+  export type SubCategoryNullableScalarRelationFilter = {
+    is?: SubCategoryWhereInput | null
+    isNot?: SubCategoryWhereInput | null
+  }
+
   export type ProductVariantListRelationFilter = {
     every?: ProductVariantWhereInput
     some?: ProductVariantWhereInput
@@ -44210,6 +44342,7 @@ export namespace Prisma {
     status?: SortOrder
     brandId?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
     metaTitle?: SortOrder
     metaDescription?: SortOrder
     basePrice?: SortOrder
@@ -44223,6 +44356,7 @@ export namespace Prisma {
     id?: SortOrder
     brandId?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
     basePrice?: SortOrder
     createdBy?: SortOrder
     modifiedBy?: SortOrder
@@ -44236,6 +44370,7 @@ export namespace Prisma {
     status?: SortOrder
     brandId?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
     metaTitle?: SortOrder
     metaDescription?: SortOrder
     basePrice?: SortOrder
@@ -44253,6 +44388,7 @@ export namespace Prisma {
     status?: SortOrder
     brandId?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
     metaTitle?: SortOrder
     metaDescription?: SortOrder
     basePrice?: SortOrder
@@ -44266,6 +44402,7 @@ export namespace Prisma {
     id?: SortOrder
     brandId?: SortOrder
     categoryId?: SortOrder
+    subCategoryId?: SortOrder
     basePrice?: SortOrder
     createdBy?: SortOrder
     modifiedBy?: SortOrder
@@ -46514,6 +46651,12 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
+  export type SubCategoryCreateNestedOneWithoutProductsInput = {
+    create?: XOR<SubCategoryCreateWithoutProductsInput, SubCategoryUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutProductsInput
+    connect?: SubCategoryWhereUniqueInput
+  }
+
   export type ProductVariantCreateNestedManyWithoutProductInput = {
     create?: XOR<ProductVariantCreateWithoutProductInput, ProductVariantUncheckedCreateWithoutProductInput> | ProductVariantCreateWithoutProductInput[] | ProductVariantUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductVariantCreateOrConnectWithoutProductInput | ProductVariantCreateOrConnectWithoutProductInput[]
@@ -46614,6 +46757,16 @@ export namespace Prisma {
     delete?: CategoryWhereInput | boolean
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutProductsInput, CategoryUpdateWithoutProductsInput>, CategoryUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type SubCategoryUpdateOneWithoutProductsNestedInput = {
+    create?: XOR<SubCategoryCreateWithoutProductsInput, SubCategoryUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: SubCategoryCreateOrConnectWithoutProductsInput
+    upsert?: SubCategoryUpsertWithoutProductsInput
+    disconnect?: SubCategoryWhereInput | boolean
+    delete?: SubCategoryWhereInput | boolean
+    connect?: SubCategoryWhereUniqueInput
+    update?: XOR<XOR<SubCategoryUpdateToOneWithWhereWithoutProductsInput, SubCategoryUpdateWithoutProductsInput>, SubCategoryUncheckedUpdateWithoutProductsInput>
   }
 
   export type ProductVariantUpdateManyWithoutProductNestedInput = {
@@ -47084,12 +47237,54 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
+  export type ProductCreateNestedManyWithoutSubCategoryInput = {
+    create?: XOR<ProductCreateWithoutSubCategoryInput, ProductUncheckedCreateWithoutSubCategoryInput> | ProductCreateWithoutSubCategoryInput[] | ProductUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSubCategoryInput | ProductCreateOrConnectWithoutSubCategoryInput[]
+    createMany?: ProductCreateManySubCategoryInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type ProductUncheckedCreateNestedManyWithoutSubCategoryInput = {
+    create?: XOR<ProductCreateWithoutSubCategoryInput, ProductUncheckedCreateWithoutSubCategoryInput> | ProductCreateWithoutSubCategoryInput[] | ProductUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSubCategoryInput | ProductCreateOrConnectWithoutSubCategoryInput[]
+    createMany?: ProductCreateManySubCategoryInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
   export type CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput = {
     create?: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutSubCategoriesInput
     upsert?: CategoryUpsertWithoutSubCategoriesInput
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutSubCategoriesInput, CategoryUpdateWithoutSubCategoriesInput>, CategoryUncheckedUpdateWithoutSubCategoriesInput>
+  }
+
+  export type ProductUpdateManyWithoutSubCategoryNestedInput = {
+    create?: XOR<ProductCreateWithoutSubCategoryInput, ProductUncheckedCreateWithoutSubCategoryInput> | ProductCreateWithoutSubCategoryInput[] | ProductUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSubCategoryInput | ProductCreateOrConnectWithoutSubCategoryInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutSubCategoryInput | ProductUpsertWithWhereUniqueWithoutSubCategoryInput[]
+    createMany?: ProductCreateManySubCategoryInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutSubCategoryInput | ProductUpdateWithWhereUniqueWithoutSubCategoryInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutSubCategoryInput | ProductUpdateManyWithWhereWithoutSubCategoryInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type ProductUncheckedUpdateManyWithoutSubCategoryNestedInput = {
+    create?: XOR<ProductCreateWithoutSubCategoryInput, ProductUncheckedCreateWithoutSubCategoryInput> | ProductCreateWithoutSubCategoryInput[] | ProductUncheckedCreateWithoutSubCategoryInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSubCategoryInput | ProductCreateOrConnectWithoutSubCategoryInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutSubCategoryInput | ProductUpsertWithWhereUniqueWithoutSubCategoryInput[]
+    createMany?: ProductCreateManySubCategoryInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutSubCategoryInput | ProductUpdateWithWhereUniqueWithoutSubCategoryInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutSubCategoryInput | ProductUpdateManyWithWhereWithoutSubCategoryInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
   }
 
   export type ProductCreateNestedManyWithoutBrandInput = {
@@ -49315,6 +49510,32 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutProductsInput, CategoryUncheckedCreateWithoutProductsInput>
   }
 
+  export type SubCategoryCreateWithoutProductsInput = {
+    subCategoryName: string
+    slug: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    modifiedBy?: number | null
+    category: CategoryCreateNestedOneWithoutSubCategoriesInput
+  }
+
+  export type SubCategoryUncheckedCreateWithoutProductsInput = {
+    id?: number
+    subCategoryName: string
+    slug: string
+    categoryId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    modifiedBy?: number | null
+  }
+
+  export type SubCategoryCreateOrConnectWithoutProductsInput = {
+    where: SubCategoryWhereUniqueInput
+    create: XOR<SubCategoryCreateWithoutProductsInput, SubCategoryUncheckedCreateWithoutProductsInput>
+  }
+
   export type ProductVariantCreateWithoutProductInput = {
     sku: string
     price: Decimal | DecimalJsLike | number | string
@@ -49540,6 +49761,38 @@ export namespace Prisma {
     subCategories?: SubCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
+  export type SubCategoryUpsertWithoutProductsInput = {
+    update: XOR<SubCategoryUpdateWithoutProductsInput, SubCategoryUncheckedUpdateWithoutProductsInput>
+    create: XOR<SubCategoryCreateWithoutProductsInput, SubCategoryUncheckedCreateWithoutProductsInput>
+    where?: SubCategoryWhereInput
+  }
+
+  export type SubCategoryUpdateToOneWithWhereWithoutProductsInput = {
+    where?: SubCategoryWhereInput
+    data: XOR<SubCategoryUpdateWithoutProductsInput, SubCategoryUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type SubCategoryUpdateWithoutProductsInput = {
+    subCategoryName?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    category?: CategoryUpdateOneRequiredWithoutSubCategoriesNestedInput
+  }
+
+  export type SubCategoryUncheckedUpdateWithoutProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subCategoryName?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    categoryId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type ProductVariantUpsertWithWhereUniqueWithoutProductInput = {
     where: ProductVariantWhereUniqueInput
     update: XOR<ProductVariantUpdateWithoutProductInput, ProductVariantUncheckedUpdateWithoutProductInput>
@@ -49665,6 +49918,7 @@ export namespace Prisma {
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
     wishList?: WishListCreateNestedManyWithoutProductInput
@@ -49679,6 +49933,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -49821,6 +50076,7 @@ export namespace Prisma {
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
     wishList?: WishListUpdateManyWithoutProductNestedInput
@@ -49835,6 +50091,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -49974,6 +50231,7 @@ export namespace Prisma {
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
     wishList?: WishListCreateNestedManyWithoutProductInput
@@ -49988,6 +50246,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -50031,6 +50290,7 @@ export namespace Prisma {
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
     wishList?: WishListUpdateManyWithoutProductNestedInput
@@ -50045,6 +50305,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -50072,6 +50333,7 @@ export namespace Prisma {
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     wishList?: WishListCreateNestedManyWithoutProductInput
@@ -50086,6 +50348,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -50179,6 +50442,7 @@ export namespace Prisma {
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     wishList?: WishListUpdateManyWithoutProductNestedInput
@@ -50193,6 +50457,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -50275,6 +50540,7 @@ export namespace Prisma {
     createdBy?: number | null
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -50289,6 +50555,7 @@ export namespace Prisma {
     slug: string
     status?: $Enums.ProductStatus
     brandId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -50320,6 +50587,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdBy?: number | null
     modifiedBy?: number | null
+    products?: ProductCreateNestedManyWithoutSubCategoryInput
   }
 
   export type SubCategoryUncheckedCreateWithoutCategoryInput = {
@@ -50330,6 +50598,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     createdBy?: number | null
     modifiedBy?: number | null
+    products?: ProductUncheckedCreateNestedManyWithoutSubCategoryInput
   }
 
   export type SubCategoryCreateOrConnectWithoutCategoryInput = {
@@ -50369,6 +50638,7 @@ export namespace Prisma {
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     brandId?: IntNullableFilter<"Product"> | number | null
     categoryId?: IntNullableFilter<"Product"> | number | null
+    subCategoryId?: IntNullableFilter<"Product"> | number | null
     metaTitle?: StringNullableFilter<"Product"> | string | null
     metaDescription?: StringNullableFilter<"Product"> | string | null
     basePrice?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
@@ -50436,6 +50706,59 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
   }
 
+  export type ProductCreateWithoutSubCategoryInput = {
+    name: string
+    description: string
+    slug: string
+    status?: $Enums.ProductStatus
+    metaTitle?: string | null
+    metaDescription?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    modifiedBy?: number | null
+    brand?: BrandCreateNestedOneWithoutProductsInput
+    category?: CategoryCreateNestedOneWithoutProductsInput
+    variants?: ProductVariantCreateNestedManyWithoutProductInput
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    reviews?: ReviewCreateNestedManyWithoutProductInput
+    wishList?: WishListCreateNestedManyWithoutProductInput
+    views?: ProductViewCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutSubCategoryInput = {
+    id?: number
+    name: string
+    description: string
+    slug: string
+    status?: $Enums.ProductStatus
+    brandId?: number | null
+    categoryId?: number | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    modifiedBy?: number | null
+    variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutProductInput
+    wishList?: WishListUncheckedCreateNestedManyWithoutProductInput
+    views?: ProductViewUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutSubCategoryInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutSubCategoryInput, ProductUncheckedCreateWithoutSubCategoryInput>
+  }
+
+  export type ProductCreateManySubCategoryInputEnvelope = {
+    data: ProductCreateManySubCategoryInput | ProductCreateManySubCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CategoryUpsertWithoutSubCategoriesInput = {
     update: XOR<CategoryUpdateWithoutSubCategoriesInput, CategoryUncheckedUpdateWithoutSubCategoriesInput>
     create: XOR<CategoryCreateWithoutSubCategoriesInput, CategoryUncheckedCreateWithoutSubCategoriesInput>
@@ -50470,6 +50793,22 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
+  export type ProductUpsertWithWhereUniqueWithoutSubCategoryInput = {
+    where: ProductWhereUniqueInput
+    update: XOR<ProductUpdateWithoutSubCategoryInput, ProductUncheckedUpdateWithoutSubCategoryInput>
+    create: XOR<ProductCreateWithoutSubCategoryInput, ProductUncheckedCreateWithoutSubCategoryInput>
+  }
+
+  export type ProductUpdateWithWhereUniqueWithoutSubCategoryInput = {
+    where: ProductWhereUniqueInput
+    data: XOR<ProductUpdateWithoutSubCategoryInput, ProductUncheckedUpdateWithoutSubCategoryInput>
+  }
+
+  export type ProductUpdateManyWithWhereWithoutSubCategoryInput = {
+    where: ProductScalarWhereInput
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutSubCategoryInput>
+  }
+
   export type ProductCreateWithoutBrandInput = {
     name: string
     description: string
@@ -50483,6 +50822,7 @@ export namespace Prisma {
     createdBy?: number | null
     modifiedBy?: number | null
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -50497,6 +50837,7 @@ export namespace Prisma {
     slug: string
     status?: $Enums.ProductStatus
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -51160,6 +51501,7 @@ export namespace Prisma {
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -51174,6 +51516,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -51273,6 +51616,7 @@ export namespace Prisma {
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -51287,6 +51631,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -53107,6 +53452,7 @@ export namespace Prisma {
     modifiedBy?: number | null
     brand?: BrandCreateNestedOneWithoutProductsInput
     category?: CategoryCreateNestedOneWithoutProductsInput
+    subCategory?: SubCategoryCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     images?: ProductImageCreateNestedManyWithoutProductInput
     reviews?: ReviewCreateNestedManyWithoutProductInput
@@ -53121,6 +53467,7 @@ export namespace Prisma {
     status?: $Enums.ProductStatus
     brandId?: number | null
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -53214,6 +53561,7 @@ export namespace Prisma {
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -53228,6 +53576,7 @@ export namespace Prisma {
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -54767,6 +55116,7 @@ export namespace Prisma {
     slug: string
     status?: $Enums.ProductStatus
     brandId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -54799,6 +55149,7 @@ export namespace Prisma {
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     brand?: BrandUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -54813,6 +55164,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -54834,6 +55186,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     brandId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -54850,6 +55203,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    products?: ProductUpdateManyWithoutSubCategoryNestedInput
   }
 
   export type SubCategoryUncheckedUpdateWithoutCategoryInput = {
@@ -54860,12 +55214,90 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    products?: ProductUncheckedUpdateManyWithoutSubCategoryNestedInput
   }
 
   export type SubCategoryUncheckedUpdateManyWithoutCategoryInput = {
     id?: IntFieldUpdateOperationsInput | number
     subCategoryName?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ProductCreateManySubCategoryInput = {
+    id?: number
+    name: string
+    description: string
+    slug: string
+    status?: $Enums.ProductStatus
+    brandId?: number | null
+    categoryId?: number | null
+    metaTitle?: string | null
+    metaDescription?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy?: number | null
+    modifiedBy?: number | null
+  }
+
+  export type ProductUpdateWithoutSubCategoryInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    brand?: BrandUpdateOneWithoutProductsNestedInput
+    category?: CategoryUpdateOneWithoutProductsNestedInput
+    variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    reviews?: ReviewUpdateManyWithoutProductNestedInput
+    wishList?: WishListUpdateManyWithoutProductNestedInput
+    views?: ProductViewUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutSubCategoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    brandId?: NullableIntFieldUpdateOperationsInput | number | null
+    categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: NullableIntFieldUpdateOperationsInput | number | null
+    modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
+    variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutProductNestedInput
+    wishList?: WishListUncheckedUpdateManyWithoutProductNestedInput
+    views?: ProductViewUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateManyWithoutSubCategoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    brandId?: NullableIntFieldUpdateOperationsInput | number | null
+    categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -54879,6 +55311,7 @@ export namespace Prisma {
     slug: string
     status?: $Enums.ProductStatus
     categoryId?: number | null
+    subCategoryId?: number | null
     metaTitle?: string | null
     metaDescription?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string | null
@@ -54901,6 +55334,7 @@ export namespace Prisma {
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     modifiedBy?: NullableIntFieldUpdateOperationsInput | number | null
     category?: CategoryUpdateOneWithoutProductsNestedInput
+    subCategory?: SubCategoryUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     images?: ProductImageUpdateManyWithoutProductNestedInput
     reviews?: ReviewUpdateManyWithoutProductNestedInput
@@ -54915,6 +55349,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -54936,6 +55371,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     categoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    subCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
     metaTitle?: NullableStringFieldUpdateOperationsInput | string | null
     metaDescription?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null

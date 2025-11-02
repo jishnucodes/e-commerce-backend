@@ -150,6 +150,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   status: 'status',
   brandId: 'brandId',
   categoryId: 'categoryId',
+  subCategoryId: 'subCategoryId',
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
   basePrice: 'basePrice',

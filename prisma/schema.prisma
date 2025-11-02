@@ -60,6 +60,7 @@ model Product {
 
   brandId    Int?
   categoryId Int?
+  subCategoryId Int?
 
   // SEO
   metaTitle       String?
@@ -77,6 +78,7 @@ model Product {
   // Relations
   brand    Brand?    @relation(fields: [brandId], references: [id])
   category Category? @relation(fields: [categoryId], references: [id])
+  subCategory SubCategory? @relation(fields: [subCategoryId], references: [id])
 
   variants ProductVariant[]
   images   ProductImage[]
@@ -169,6 +171,9 @@ model SubCategory {
   modifiedBy Int?
 
   category Category @relation(fields: [categoryId], references: [id])
+
+  products Product[]
+
 }
 
 model Brand {

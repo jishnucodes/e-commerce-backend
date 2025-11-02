@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.13.0",
+    "@prisma/client": "^6.17.1",
     "@sendgrid/mail": "^8.1.5",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -36,7 +36,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.14",
     "@types/nodemailer": "^6.4.17",
-    "prisma": "^6.13.0",
+    "prisma": "^6.17.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
