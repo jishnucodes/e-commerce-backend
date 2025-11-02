@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm install && prisma generate && tsc",
+    "build": "npm install && prisma generate && tsc && npm run copy-prisma",
     "start": "prisma migrate deploy && node dist/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "copy-prisma": "node scripts/copy-prisma.js"
   },
   "prisma": {
     "seed": "ts-node ./src/lib/seed.ts"
